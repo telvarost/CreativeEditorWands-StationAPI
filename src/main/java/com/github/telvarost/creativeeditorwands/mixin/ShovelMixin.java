@@ -41,22 +41,31 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
             int blockId = level.getTileId(i, j, k);
             int blockMeta = level.getTileMeta(i, j, k);
 
-            level.setTile(i, j, k, 0);
-            level.setTileMeta(i, j, k, 0);
-
-            if (meta == 0) {
-                --j;
-            } else if (meta == 1) {
-                ++j;
-            } else if (meta == 2) {
-                --k;
-            } else if (meta == 3) {
-                ++k;
-            } else if (meta == 4) {
-                --i;
-            } else if (meta == 5) {
-                ++i;
+            if (0 == item.getDamage()) {
+                level.setTile(i, j, k, 0);
+                level.setTileMeta(i, j, k, 0);
+            } else {
+                if (  (blockId   == item.getDamage())
+                   && (blockMeta == (item.count - 1))
+                ) {
+                    level.setTile(i, j, k, 0);
+                    level.setTileMeta(i, j, k, 0);
+                }
             }
+
+//            if (meta == 0) {
+//                --j;
+//            } else if (meta == 1) {
+//                ++j;
+//            } else if (meta == 2) {
+//                --k;
+//            } else if (meta == 3) {
+//                ++k;
+//            } else if (meta == 4) {
+//                --i;
+//            } else if (meta == 5) {
+//                ++i;
+//            }
 
             return true;
         } else {

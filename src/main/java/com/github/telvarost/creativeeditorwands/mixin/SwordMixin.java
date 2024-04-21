@@ -75,8 +75,13 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
                 ++i;
             }
 
-            level.setTile(i, j, k, blockId);
-            level.setTileMeta(i, j, k, blockMeta);
+            if (0 == item.getDamage()) {
+                level.setTile(i, j, k, blockId);
+                level.setTileMeta(i, j, k, blockMeta);
+            } else {
+                level.setTile(i, j, k, item.getDamage());
+                level.setTileMeta(i, j, k, (item.count - 1));
+            }
 
             return true;
         } else {
