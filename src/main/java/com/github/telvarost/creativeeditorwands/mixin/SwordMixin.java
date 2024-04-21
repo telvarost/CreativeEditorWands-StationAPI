@@ -46,6 +46,25 @@ public class SwordMixin extends ItemBase implements StationSwordItem {
         if (  (this.id == ItemBase.woodSword.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
+            int blockId = level.getTileId(i, j, k);
+            int blockMeta = level.getTileMeta(i, j, k);
+
+            if (meta == 0) {
+                --j;
+            } else if (meta == 1) {
+                ++j;
+            } else if (meta == 2) {
+                --k;
+            } else if (meta == 3) {
+                ++k;
+            } else if (meta == 4) {
+                --i;
+            } else if (meta == 5) {
+                ++i;
+            }
+
+            level.setTile(i, j, k, blockId);
+            level.setTileMeta(i, j, k, blockMeta);
 
             return true;
         } else {
