@@ -9,7 +9,8 @@
     "ItemBaseMixin",
     "PickaxeMixin",
     "ShovelMixin",
-    "SwordMixin"
+    "SwordMixin",
+    "ToolBaseMixin"
   ],
   "server": [
   ],
