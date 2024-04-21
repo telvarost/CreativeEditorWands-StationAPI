@@ -8,6 +8,7 @@ import net.minecraft.item.ItemInstance;
 import net.minecraft.item.tool.Sword;
 import net.minecraft.item.tool.ToolMaterial;
 import net.minecraft.level.Level;
+import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.item.tool.StationSwordItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Sword.class)
-public class SwordMixin extends ItemBase implements StationSwordItem {
+public class SwordMixin extends ItemBase implements StationSwordItem, CustomTooltipProvider {
     /**
      * - Paint with wooden sword
      */
@@ -38,6 +39,17 @@ public class SwordMixin extends ItemBase implements StationSwordItem {
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
             cir.setReturnValue(true);
+        }
+    }
+
+    @Override
+    public String[] getTooltip(ItemInstance itemInstance, String originalTooltip) {
+        if (  (this.id == ItemBase.woodSword.id)
+           && (ModHelper.ModHelperFields.enableWorldEditTools)
+        ) {
+            return new String[]{"Paint Brush", "Size: " + 1};
+        } else {
+            return new String[]{originalTooltip};
         }
     }
 
