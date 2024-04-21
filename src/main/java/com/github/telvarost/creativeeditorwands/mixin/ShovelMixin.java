@@ -41,6 +41,9 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
             int blockId = level.getTileId(i, j, k);
             int blockMeta = level.getTileMeta(i, j, k);
 
+            level.setTile(i, j, k, 0);
+            level.setTileMeta(i, j, k, 0);
+
             if (meta == 0) {
                 --j;
             } else if (meta == 1) {
@@ -54,9 +57,6 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
             } else if (meta == 5) {
                 ++i;
             }
-
-            level.setTile(i, j, k, 0);
-            level.setTileMeta(i, j, k, 0);
 
             return true;
         } else {
