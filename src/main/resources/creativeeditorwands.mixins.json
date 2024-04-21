@@ -15,6 +15,7 @@
   "server": [
   ],
   "client": [
+    "ContainerBaseMixin"
   ],
   "injectors": {
     "defaultRequire": 1
