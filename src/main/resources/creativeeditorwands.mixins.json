@@ -4,9 +4,12 @@
   "package": "com.github.telvarost.creativeeditorwands.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "FishHookMixin",
-    "FoodBaseMixin",
-    "FurnaceEntityMixin"
+    "AxeMixin",
+    "HoeMixin",
+    "ItemBaseMixin",
+    "PickaxeMixin",
+    "ShovelMixin",
+    "SwordMixin"
   ],
   "server": [
   ],

@@ -10,30 +10,19 @@ public class Config {
 
     public static class ConfigFields {
 
-        @ConfigName("Allow Catching Random Fish Sizes")
-        @MultiplayerSynced
-        public Boolean enableRandomFishSizes = true;
-
-        @ConfigName("Calculate Water Surface Size")
-        @Comment("Adjusts fish size/type based on area")
-        @MultiplayerSynced
-        public Boolean calculateWaterSurfaceSize = true;
-
-        @ConfigName("Display Fish Healing Tooltip")
-        public Boolean enableFishHealingTooltip = false;
-
-        @ConfigName("Display Food Healing Tooltips")
-        public Boolean enableFoodHealingTooltips = false;
-
-        @ConfigName("Enable Non-vanilla Fish")
-        @Comment("Mod should not be removed if set to true")
+        @ConfigName("Enable Toggling Editing Tools With Bone")
         @MultiplayerSynced
         @ValueOnVanillaServer(booleanValue = TriBoolean.FALSE)
-        public Boolean enableNonVanillaFish = false;
+        public Boolean enableTogglingEditingToolsWithBone = true;
 
-        @ConfigName("Enable Oceanic Fish")
-        @Comment("Increases the max fish size from 70 to 110")
+        @ConfigName("Disable All Editing Tools")
         @MultiplayerSynced
-        public Boolean enableBiggerFish = false;
+        @ValueOnVanillaServer(booleanValue = TriBoolean.FALSE)
+        public Boolean disableAllEditingTools = false;
+
+        @ConfigName("Use Vanilla Item Editing Tools")
+        @MultiplayerSynced
+        @ValueOnVanillaServer(booleanValue = TriBoolean.FALSE)
+        public Boolean useVanillaItemEditingTools = true;
     }
 }
