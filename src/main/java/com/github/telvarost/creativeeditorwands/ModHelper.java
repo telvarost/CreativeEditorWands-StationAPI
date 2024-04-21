@@ -4,31 +4,33 @@ import net.minecraft.item.ItemBase;
 
 public class ModHelper {
     public static final int WOODEN_TOOL_DURABILITY = 59;
-    public static final int EDITING_TOOL_DURABILITY = 96;
+    public static final int SELECTION_TOOL_DURABILITY = 64;
+    public static final int BRUSH_SIZE_DURABILITY = 100;
+    public static final int BLOCK_ID_DURABILITY = 96;
 
     public static void AttemptToSetEditingToolProperties()
     {
         if (ModHelper.ModHelperFields.blocksAndItemsRegistered) {
             if (ModHelper.ModHelperFields.enableWorldEditTools) {
 
-                if (EDITING_TOOL_DURABILITY != ItemBase.woodAxe.getDurability()) {
-                    ItemBase.woodAxe.setDurability(EDITING_TOOL_DURABILITY);
+                if (SELECTION_TOOL_DURABILITY != ItemBase.woodAxe.getDurability()) {
+                    ItemBase.woodAxe.setDurability(SELECTION_TOOL_DURABILITY);
                 }
 
-                if (EDITING_TOOL_DURABILITY != ItemBase.woodHoe.getDurability()) {
-                    ItemBase.woodHoe.setDurability(EDITING_TOOL_DURABILITY);
+                if (BRUSH_SIZE_DURABILITY != ItemBase.woodHoe.getDurability()) {
+                    ItemBase.woodHoe.setDurability(BRUSH_SIZE_DURABILITY);
                 }
 
-                if (EDITING_TOOL_DURABILITY != ItemBase.woodPickaxe.getDurability()) {
-                    ItemBase.woodPickaxe.setDurability(EDITING_TOOL_DURABILITY);
+                if (BLOCK_ID_DURABILITY != ItemBase.woodPickaxe.getDurability()) {
+                    ItemBase.woodPickaxe.setDurability(BLOCK_ID_DURABILITY);
                 }
 
-                if (EDITING_TOOL_DURABILITY != ItemBase.woodShovel.getDurability()) {
-                    ItemBase.woodShovel.setDurability(EDITING_TOOL_DURABILITY);
+                if (BLOCK_ID_DURABILITY != ItemBase.woodShovel.getDurability()) {
+                    ItemBase.woodShovel.setDurability(BLOCK_ID_DURABILITY);
                 }
 
-                if (EDITING_TOOL_DURABILITY != ItemBase.woodSword.getDurability()) {
-                    ItemBase.woodSword.setDurability(EDITING_TOOL_DURABILITY);
+                if (BLOCK_ID_DURABILITY != ItemBase.woodSword.getDurability()) {
+                    ItemBase.woodSword.setDurability(BLOCK_ID_DURABILITY);
                 }
             } else {
 
