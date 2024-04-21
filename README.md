@@ -13,6 +13,7 @@ All changes only apply in creative mode
 * Paint with wooden sword
 * Erase with wooden shovel
 * Change paint/erase brush type with wooden hoe
+* Change paint/erase color with wooden pickaxe
 * Enable/disable world edit style tools with wooden stick
 
 ## Installation using Prism Launcher
