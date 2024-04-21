@@ -27,7 +27,7 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
         if (  (this.id == ItemBase.woodShovel.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            return new String[]{"Eraser", "Size: " + 1};
+            return new String[]{"Erase Brush", "Block: " + itemInstance.getDamage(), "Metadata: " + (itemInstance.count - 1)};
         } else {
             return new String[]{originalTooltip};
         }

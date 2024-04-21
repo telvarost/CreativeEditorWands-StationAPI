@@ -26,7 +26,7 @@ public class HoeMixin extends ItemBase implements StationHoeItem, CustomTooltipP
         if (  (this.id == ItemBase.woodHoe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            return new String[]{"Brush", "Size: " + (itemInstance.getDamage() + 1), "Type: " + itemInstance.count};
+            return new String[]{"Brush Mode", "Size: " + (itemInstance.getDamage() + 1), "Type: " + itemInstance.count};
         } else {
             return new String[]{originalTooltip};
         }
@@ -37,11 +37,6 @@ public class HoeMixin extends ItemBase implements StationHoeItem, CustomTooltipP
         if (  (this.id == ItemBase.woodHoe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            if (3 <= item.count) {
-                item.count = 1;
-            } else {
-                item.count++;
-            }
             ModHelper.ModHelperFields.brushSize = (item.getDamage() + 1);
             ModHelper.ModHelperFields.brushType = item.count;
         }

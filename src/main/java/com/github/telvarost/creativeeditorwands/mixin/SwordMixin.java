@@ -47,7 +47,7 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
         if (  (this.id == ItemBase.woodSword.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            return new String[]{"Paint Brush", "Size: " + 1};
+            return new String[]{"Paint Brush", "Block: " + itemInstance.getDamage(), "Metadata: " + (itemInstance.count - 1)};
         } else {
             return new String[]{originalTooltip};
         }
