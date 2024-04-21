@@ -24,8 +24,8 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
 
     @Override
     public String[] getTooltip(ItemInstance itemInstance, String originalTooltip) {
-        if (  (this.id == ItemBase.woodSword.id)
-                && (ModHelper.ModHelperFields.enableWorldEditTools)
+        if (  (this.id == ItemBase.woodShovel.id)
+           && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
             return new String[]{"Eraser", "Size: " + 1};
         } else {
@@ -35,8 +35,8 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
 
     @Override
     public boolean useOnTile(ItemInstance item, PlayerBase player, Level level, int i, int j, int k, int meta) {
-        if (  (this.id == ItemBase.woodSword.id)
-                && (ModHelper.ModHelperFields.enableWorldEditTools)
+        if (  (this.id == ItemBase.woodShovel.id)
+           && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
             int blockId = level.getTileId(i, j, k);
             int blockMeta = level.getTileMeta(i, j, k);
