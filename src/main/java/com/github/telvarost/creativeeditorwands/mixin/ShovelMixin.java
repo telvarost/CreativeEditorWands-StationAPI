@@ -38,6 +38,9 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
         if (  (this.id == ItemBase.woodShovel.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
+            int x = i;
+            int y = j;
+            int z = k;
             int blockId = level.getTileId(i, j, k);
             int blockMeta = level.getTileMeta(i, j, k);
 
@@ -54,17 +57,17 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
             }
 
 //            if (meta == 0) {
-//                --j;
+//                --y;
 //            } else if (meta == 1) {
-//                ++j;
+//                ++y;
 //            } else if (meta == 2) {
-//                --k;
+//                --z;
 //            } else if (meta == 3) {
-//                ++k;
+//                ++z;
 //            } else if (meta == 4) {
-//                --i;
+//                --x;
 //            } else if (meta == 5) {
-//                ++i;
+//                ++x;
 //            }
 
             return true;
