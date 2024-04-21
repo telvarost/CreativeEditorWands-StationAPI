@@ -34,7 +34,15 @@ public class PickaxeMixin extends ToolBase implements CustomTooltipProvider {
     }
 
     @Override
+    public ItemInstance use(ItemInstance item, Level arg2, PlayerBase arg3) {
+        item.setDamage(0);
+        item.count = 1;
+        return item;
+    }
+
+    @Override
     public boolean useOnTile(ItemInstance item, PlayerBase player, Level level, int i, int j, int k, int meta) {
+        System.out.println("Item used on tile");
         if (  (this.id == ItemBase.woodPickaxe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
