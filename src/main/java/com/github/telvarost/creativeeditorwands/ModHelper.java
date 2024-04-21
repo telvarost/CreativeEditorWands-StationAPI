@@ -63,5 +63,7 @@ public class ModHelper {
         public static Boolean enableWorldEditTools = true;
         public static Integer brushSize = 1;
         public static Integer brushType = 1;
+        public static Integer serverBlockId = 0;
+        public static Integer serverBlockMeta = 0;
     }
 }
