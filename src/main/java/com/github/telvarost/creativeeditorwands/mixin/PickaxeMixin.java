@@ -27,7 +27,7 @@ public class PickaxeMixin extends ToolBase implements CustomTooltipProvider {
         if (  (this.id == ItemBase.woodPickaxe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            return new String[]{"Color Picker", "Color: " + itemInstance.getDamage()};
+            return new String[]{"Color Picker", "Color: " + itemInstance.getDamage(), "Metadata: " + itemInstance.count};
         } else {
             return new String[]{originalTooltip};
         }
@@ -42,6 +42,7 @@ public class PickaxeMixin extends ToolBase implements CustomTooltipProvider {
             int blockMeta = level.getTileMeta(i, j, k);
 
             item.setDamage(blockId);
+            item.count = (blockMeta + 1);
 
             return true;
         } else {
