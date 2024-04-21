@@ -1,0 +1,20 @@
+tab.raw_common_fish.name=CreativeEditorWands Fish
+
+item.RawCommonFish.name=Common Fish
+item.CookedCommonFish.name=Cooked Common Fish
+item.RawRiverFish.name=River Fish
+item.CookedRiverFish.name=Cooked River Fish
+item.RawSeaFish.name=Sea Fish
+item.CookedSeaFish.name=Cooked Sea Fish
+item.RawOceanFish.name=Ocean Fish
+item.CookedOceanFish.name=Cooked Ocean Fish
+
+stationapi\:achievementPage.achievements=CreativeEditorWands
+achievement.first_unique_fish=Wishin' I Was Fishin'
+achievement.first_unique_fish.desc=Fish up any fish with a unique length
+achievement.special_fish=Wow! This is a real lunker!
+achievement.special_fish.desc=Catch a lucky, rare, or legendary fish
+achievement.ocean_fish=100% O-fish-ial Tuna!
+achievement.ocean_fish.desc=Catch a 70+ cm fish or an ocean fish
+achievement.little_fish=What a lil' guy
+achievement.little_fish.desc=Catch a fish smaller than 15 cm

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "id": "creativeeditorwands",
+  "version": "${version}",
+
+  "name": "CreativeEditorWands",
+  "description": "Adds world edit style properties to wooden tools when in creative mode (disable/enable using wooden stick).",
+  "authors": [
+    "Telvarost"
+  ],
+  "contact": {
+    "issues": "https://github.com/telvarost/CreativeEditorWands-StationAPI/issues",
+    "homepage": "https://github.com/telvarost/CreativeEditorWands-StationAPI/",
+    "sources": "https://github.com/telvarost/CreativeEditorWands-StationAPI/"
+  },
+
+  "license": "MIT",
+  "icon": "assets/creativeeditorwands/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "stationapi:event_bus": [
+    ],
+    "stationapi:event_bus_client": [
+    ],
+    "stationapi:event_bus_server": [
+    ],
+    "gcapi": [
+      "com.github.telvarost.creativeeditorwands.Config"
+    ],
+    "gcapi:presave": [
+    ],
+    "bhcreative:event_bus": [
+    ]
+  },
+  "mixins": [
+    "creativeeditorwands.mixins.json"
+  ],
+
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3"
+  }
+}
