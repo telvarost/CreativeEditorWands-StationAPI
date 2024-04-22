@@ -117,11 +117,11 @@ public abstract class ContainerBaseMixin extends ScreenBase {
             } else {
                 slotItemToExamine.count += numberOfTurns;
                 if (slotItemToExamine.itemId != ItemBase.woodHoe.id) {
-                    if (17 < slotItemToExamine.count) {
+                    if (16 < slotItemToExamine.count) {
                         slotItemToExamine.count = 1;
                     }
                     if (1 > slotItemToExamine.count) {
-                        slotItemToExamine.count = 17;
+                        slotItemToExamine.count = 16;
                     }
                 } else {
                     if (3 < slotItemToExamine.count) {
