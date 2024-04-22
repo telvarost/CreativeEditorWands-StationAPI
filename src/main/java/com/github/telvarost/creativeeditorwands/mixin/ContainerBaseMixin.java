@@ -82,7 +82,7 @@ public abstract class ContainerBaseMixin extends ScreenBase {
                 if (  (0 != currentWheelDegrees)
                 ) {
                     /** - Handle scroll wheel */
-                    inventoryTweaks_handleScrollWheel(currentWheelDegrees);
+                    creativeEditorWands_handleScrollWheel(currentWheelDegrees);
                 }
             }
         }
