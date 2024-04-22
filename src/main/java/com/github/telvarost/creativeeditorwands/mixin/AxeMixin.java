@@ -23,6 +23,19 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
     }
 
     @Override
+    public ItemInstance use(ItemInstance item, Level arg2, PlayerBase arg3) {
+        if (  (this.id == ItemBase.woodAxe.id)
+           && (ModHelper.ModHelperFields.enableWorldEditTools)
+        ) {
+            item.count++;
+            if (3 < item.count) {
+                item.count = 1;
+            }
+        }
+        return item;
+    }
+
+    @Override
     public String[] getTooltip(ItemInstance itemInstance, String originalTooltip) {
         if (  (this.id == ItemBase.woodAxe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
@@ -64,27 +77,34 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
             int blockId = level.getTileId(i, j, k);
             int blockMeta = level.getTileMeta(i, j, k);
 
-            if (  (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_X)
-               && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_Y)
-               && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_Z)
-            ) {
-                ModHelper.ModHelperFields.copyPoint1_X = Integer.MAX_VALUE;
-                ModHelper.ModHelperFields.copyPoint1_Y = Integer.MAX_VALUE;
-                ModHelper.ModHelperFields.copyPoint1_Z = Integer.MAX_VALUE;
-                ModHelper.ModHelperFields.copyPoint2_X = Integer.MAX_VALUE;
-                ModHelper.ModHelperFields.copyPoint2_Y = Integer.MAX_VALUE;
-                ModHelper.ModHelperFields.copyPoint2_Z = Integer.MAX_VALUE;
-            } else if (  (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_X)
-                      && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Y)
-                      && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Z)
-            ) {
-                ModHelper.ModHelperFields.copyPoint2_X = i;
-                ModHelper.ModHelperFields.copyPoint2_Y = j;
-                ModHelper.ModHelperFields.copyPoint2_Z = k;
+            if (3 == item.count) {
+                /** - Fill selection */
+            } else if (2 == item.count) {
+                /** - Paste selection */
             } else {
-                ModHelper.ModHelperFields.copyPoint1_X = i;
-                ModHelper.ModHelperFields.copyPoint1_Y = j;
-                ModHelper.ModHelperFields.copyPoint1_Z = k;
+                /** - Select/clear points */
+                if ((Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_X)
+                   && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_Y)
+                   && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_Z)
+                ) {
+                    ModHelper.ModHelperFields.copyPoint1_X = Integer.MAX_VALUE;
+                    ModHelper.ModHelperFields.copyPoint1_Y = Integer.MAX_VALUE;
+                    ModHelper.ModHelperFields.copyPoint1_Z = Integer.MAX_VALUE;
+                    ModHelper.ModHelperFields.copyPoint2_X = Integer.MAX_VALUE;
+                    ModHelper.ModHelperFields.copyPoint2_Y = Integer.MAX_VALUE;
+                    ModHelper.ModHelperFields.copyPoint2_Z = Integer.MAX_VALUE;
+                } else if (  (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_X)
+                          && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Y)
+                          && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Z)
+                ) {
+                    ModHelper.ModHelperFields.copyPoint2_X = i;
+                    ModHelper.ModHelperFields.copyPoint2_Y = j;
+                    ModHelper.ModHelperFields.copyPoint2_Z = k;
+                } else {
+                    ModHelper.ModHelperFields.copyPoint1_X = i;
+                    ModHelper.ModHelperFields.copyPoint1_Y = j;
+                    ModHelper.ModHelperFields.copyPoint1_Z = k;
+                }
             }
 
             return true;
