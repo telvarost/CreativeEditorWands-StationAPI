@@ -108,9 +108,9 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
                         add_z = -1;
                     }
 
-                    for(int var6 = ModHelper.ModHelperFields.copyPoint1_X; var6 <= ModHelper.ModHelperFields.copyPoint2_X; var6 += add_x) {
-                        for(int var7 = ModHelper.ModHelperFields.copyPoint1_Y; var7 <= ModHelper.ModHelperFields.copyPoint2_Y; var7 += add_y) {
-                            for(int var8 = ModHelper.ModHelperFields.copyPoint1_Z; var8 <= ModHelper.ModHelperFields.copyPoint2_Z; var8 += add_z) {
+                    for(int var6 = ModHelper.ModHelperFields.copyPoint1_X; var6 != ModHelper.ModHelperFields.copyPoint2_X; var6 += add_x) {
+                        for(int var7 = ModHelper.ModHelperFields.copyPoint1_Y; var7 != ModHelper.ModHelperFields.copyPoint2_Y; var7 += add_y) {
+                            for(int var8 = ModHelper.ModHelperFields.copyPoint1_Z; var8 != ModHelper.ModHelperFields.copyPoint2_Z; var8 += add_z) {
                                 level.setTile(var6, var7, var8, blockId);
                                 level.setTileMeta(var6, var7, var8, blockMeta);
                             }
