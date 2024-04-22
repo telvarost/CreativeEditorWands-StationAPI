@@ -61,6 +61,7 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
             int blockMeta = level.getTileMeta(i, j, k);
             int eraseId = item.getDamage();
             int eraseMeta = (item.count - 1);
+            boolean eraseMatching = true;
 
             if (  (null == PlayerHelper.getPlayerFromGame())
                || (false != level.isServerSide)
@@ -70,24 +71,26 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
             }
 
             if (0 == eraseId) {
-                if (1 == ModHelper.ModHelperFields.brushType) {
-                    creativeEditorWands_cubeEraseBrush(level, i, j, k, eraseId, eraseMeta, false);
-                } else {
+                eraseMatching = false;
+            }
+
+
+            if (1 == ModHelper.ModHelperFields.brushType) {
+                creativeEditorWands_cubeEraseBrush(level, i, j, k, eraseId, eraseMeta, eraseMatching);
+            } else if (2 == ModHelper.ModHelperFields.brushType) {
+                creativeEditorWands_squareEraseBrush(level, i, j, k, eraseId, eraseMeta, meta, eraseMatching);
+            } else {
+                if (false == eraseMatching) {
+                    level.setTile(i, j, k, 0);
+                    level.setTileMeta(i, j, k, 0);
+                } else if (  (blockId == eraseId)
+                          && (blockMeta == eraseMeta)
+                ) {
                     level.setTile(i, j, k, 0);
                     level.setTileMeta(i, j, k, 0);
                 }
-            } else {
-                if (1 == ModHelper.ModHelperFields.brushType) {
-                    creativeEditorWands_cubeEraseBrush(level, i, j, k, eraseId, eraseMeta, true);
-                } else {
-                    if (  (blockId == eraseId)
-                       && (blockMeta == eraseMeta)
-                    ) {
-                        level.setTile(i, j, k, 0);
-                        level.setTileMeta(i, j, k, 0);
-                    }
-                }
             }
+
 //            if (meta == 0) {
 //                --y;
 //            } else if (meta == 1) {
@@ -130,6 +133,133 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
                     }
                 }
             }
+        }
+    }
+
+    @Unique
+    private void creativeEditorWands_squareEraseBrush(Level level, int x, int y, int z, int eraseId, int eraseMeta, int direction, boolean eraseMatching) {
+        byte var5 = ModHelper.ModHelperFields.brushSize.byteValue();
+
+        if (direction == 0) {
+
+            for(int var6 = x - var5; var6 <= x + var5; ++var6) {
+                int var7 = y;
+                //for(int var7 = y - var5; var7 <= y + var5; ++var7) {
+                for(int var8 = z - var5; var8 <= z + var5; ++var8) {
+                    int blockId = level.getTileId(var6, var7, var8);
+                    int blockMeta = level.getTileMeta(var6, var7, var8);
+                    if (false == eraseMatching) {
+                        level.setTile(var6, var7, var8, 0);
+                        level.setTileMeta(var6, var7, var8, 0);
+                    } else if (  (blockId == eraseId)
+                              && (blockMeta == eraseMeta)
+                    ) {
+                        level.setTile(var6, var7, var8, 0);
+                        level.setTileMeta(var6, var7, var8, 0);
+                    }
+                }
+                //}
+            }
+        } else if (direction == 1) {
+
+            for(int var6 = x - var5; var6 <= x + var5; ++var6) {
+                int var7 = y;
+                //for(int var7 = y - var5; var7 <= y + var5; ++var7) {
+                for(int var8 = z - var5; var8 <= z + var5; ++var8) {
+                    int blockId = level.getTileId(var6, var7, var8);
+                    int blockMeta = level.getTileMeta(var6, var7, var8);
+                    if (false == eraseMatching) {
+                        level.setTile(var6, var7, var8, 0);
+                        level.setTileMeta(var6, var7, var8, 0);
+                    } else if (  (blockId == eraseId)
+                            && (blockMeta == eraseMeta)
+                    ) {
+                        level.setTile(var6, var7, var8, 0);
+                        level.setTileMeta(var6, var7, var8, 0);
+                    }
+                }
+                //}
+            }
+        } else if (direction == 2) {
+
+            for(int var6 = x - var5; var6 <= x + var5; ++var6) {
+                for(int var7 = y - var5; var7 <= y + var5; ++var7) {
+                    //for(int var8 = z - var5; var8 <= z + var5; ++var8) {
+                    int var8 = z;
+                    int blockId = level.getTileId(var6, var7, var8);
+                    int blockMeta = level.getTileMeta(var6, var7, var8);
+                    if (false == eraseMatching) {
+                        level.setTile(var6, var7, var8, 0);
+                        level.setTileMeta(var6, var7, var8, 0);
+                    } else if (  (blockId == eraseId)
+                            && (blockMeta == eraseMeta)
+                    ) {
+                        level.setTile(var6, var7, var8, 0);
+                        level.setTileMeta(var6, var7, var8, 0);
+                    }
+                    //}
+                }
+            }
+        } else if (direction == 3) {
+
+            for(int var6 = x - var5; var6 <= x + var5; ++var6) {
+                for(int var7 = y - var5; var7 <= y + var5; ++var7) {
+                    //for(int var8 = z - var5; var8 <= z + var5; ++var8) {
+                    int var8 = z;
+                    int blockId = level.getTileId(var6, var7, var8);
+                    int blockMeta = level.getTileMeta(var6, var7, var8);
+                    if (false == eraseMatching) {
+                        level.setTile(var6, var7, var8, 0);
+                        level.setTileMeta(var6, var7, var8, 0);
+                    } else if (  (blockId == eraseId)
+                            && (blockMeta == eraseMeta)
+                    ) {
+                        level.setTile(var6, var7, var8, 0);
+                        level.setTileMeta(var6, var7, var8, 0);
+                    }
+                    //}
+                }
+            }
+        } else if (direction == 4) {
+
+            //for(int var6 = x - var5; var6 <= x + var5; ++var6) {
+            int var6 = x;
+            for(int var7 = y - var5; var7 <= y + var5; ++var7) {
+                for(int var8 = z - var5; var8 <= z + var5; ++var8) {
+                    int blockId = level.getTileId(var6, var7, var8);
+                    int blockMeta = level.getTileMeta(var6, var7, var8);
+                    if (false == eraseMatching) {
+                        level.setTile(var6, var7, var8, 0);
+                        level.setTileMeta(var6, var7, var8, 0);
+                    } else if (  (blockId == eraseId)
+                            && (blockMeta == eraseMeta)
+                    ) {
+                        level.setTile(var6, var7, var8, 0);
+                        level.setTileMeta(var6, var7, var8, 0);
+                    }
+                }
+            }
+            //}
+        } else if (direction == 5) {
+
+            //for(int var6 = x - var5; var6 <= x + var5; ++var6) {
+            int var6 = x;
+            for(int var7 = y - var5; var7 <= y + var5; ++var7) {
+                for(int var8 = z - var5; var8 <= z + var5; ++var8) {
+                    int blockId = level.getTileId(var6, var7, var8);
+                    int blockMeta = level.getTileMeta(var6, var7, var8);
+                    if (false == eraseMatching) {
+                        level.setTile(var6, var7, var8, 0);
+                        level.setTileMeta(var6, var7, var8, 0);
+                    } else if (  (blockId == eraseId)
+                            && (blockMeta == eraseMeta)
+                    ) {
+                        level.setTile(var6, var7, var8, 0);
+                        level.setTileMeta(var6, var7, var8, 0);
+                    }
+                }
+            }
+            //}
         }
     }
 }

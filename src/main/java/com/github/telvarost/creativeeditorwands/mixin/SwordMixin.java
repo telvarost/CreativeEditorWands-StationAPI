@@ -105,19 +105,17 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
             }
 
             if (0 == paintId) {
-                if (1 == ModHelper.ModHelperFields.brushType) {
-                    creativeEditorWands_cubePaintBrush(level, x, y, z, blockId, blockMeta);
-                } else {
-                    level.setTile(x, y, z, blockId);
-                    level.setTileMeta(x, y, z, blockMeta);
-                }
+                paintId = blockId;
+                paintMeta = blockMeta;
+            }
+
+            if (1 == ModHelper.ModHelperFields.brushType) {
+                creativeEditorWands_cubePaintBrush(level, x, y, z, paintId, paintMeta);
+            } else if (2 == ModHelper.ModHelperFields.brushType) {
+                creativeEditorWands_squarePaintBrush(level, x, y, z, paintId, paintMeta, meta);
             } else {
-                if (1 == ModHelper.ModHelperFields.brushType) {
-                    creativeEditorWands_cubePaintBrush(level, x, y, z, paintId, paintMeta);
-                } else {
-                    level.setTile(x, y, z, paintId);
-                    level.setTileMeta(x, y, z, paintId);
-                }
+                level.setTile(x, y, z, paintId);
+                level.setTileMeta(x, y, z, paintId);
             }
 
             return true;
@@ -137,6 +135,79 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
                     level.setTileMeta(var6, var7, var8, blockMeta);
                 }
             }
+        }
+    }
+
+    @Unique
+    private void creativeEditorWands_squarePaintBrush(Level level, int x, int y, int z, int blockId, int blockMeta, int direction) {
+        byte var5 = ModHelper.ModHelperFields.brushSize.byteValue();
+
+        if (direction == 0) {
+
+            for(int var6 = x - var5; var6 <= x + var5; ++var6) {
+                int var7 = y;
+                //for(int var7 = y - var5; var7 <= y + var5; ++var7) {
+                    for(int var8 = z - var5; var8 <= z + var5; ++var8) {
+                        level.setTile(var6, var7, var8, blockId);
+                        level.setTileMeta(var6, var7, var8, blockMeta);
+                    }
+                //}
+            }
+        } else if (direction == 1) {
+
+            for(int var6 = x - var5; var6 <= x + var5; ++var6) {
+                int var7 = y;
+                //for(int var7 = y - var5; var7 <= y + var5; ++var7) {
+                for(int var8 = z - var5; var8 <= z + var5; ++var8) {
+                    level.setTile(var6, var7, var8, blockId);
+                    level.setTileMeta(var6, var7, var8, blockMeta);
+                }
+                //}
+            }
+        } else if (direction == 2) {
+
+            for(int var6 = x - var5; var6 <= x + var5; ++var6) {
+                for(int var7 = y - var5; var7 <= y + var5; ++var7) {
+                    //for(int var8 = z - var5; var8 <= z + var5; ++var8) {
+                    int var8 = z;
+                    level.setTile(var6, var7, var8, blockId);
+                    level.setTileMeta(var6, var7, var8, blockMeta);
+                    //}
+                }
+            }
+        } else if (direction == 3) {
+
+            for(int var6 = x - var5; var6 <= x + var5; ++var6) {
+                for(int var7 = y - var5; var7 <= y + var5; ++var7) {
+                    //for(int var8 = z - var5; var8 <= z + var5; ++var8) {
+                    int var8 = z;
+                    level.setTile(var6, var7, var8, blockId);
+                    level.setTileMeta(var6, var7, var8, blockMeta);
+                    //}
+                }
+            }
+        } else if (direction == 4) {
+
+            //for(int var6 = x - var5; var6 <= x + var5; ++var6) {
+            int var6 = x;
+            for(int var7 = y - var5; var7 <= y + var5; ++var7) {
+                for(int var8 = z - var5; var8 <= z + var5; ++var8) {
+                    level.setTile(var6, var7, var8, blockId);
+                    level.setTileMeta(var6, var7, var8, blockMeta);
+                }
+            }
+            //}
+        } else if (direction == 5) {
+
+            //for(int var6 = x - var5; var6 <= x + var5; ++var6) {
+            int var6 = x;
+            for(int var7 = y - var5; var7 <= y + var5; ++var7) {
+                for(int var8 = z - var5; var8 <= z + var5; ++var8) {
+                    level.setTile(var6, var7, var8, blockId);
+                    level.setTileMeta(var6, var7, var8, blockMeta);
+                }
+            }
+            //}
         }
     }
 }
