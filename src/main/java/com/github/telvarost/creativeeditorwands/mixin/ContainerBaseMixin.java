@@ -6,6 +6,7 @@ import net.minecraft.client.gui.screen.container.ContainerBase;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.container.slot.Slot;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -102,7 +103,7 @@ public abstract class ContainerBaseMixin extends ScreenBase {
            )
         {
             float numberOfTurns = (float)wheelDegrees / 120.0f;
-            if (false == Mouse.isButtonDown(2)) {
+            if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
                 int curCount = slotItemToExamine.count;
                 slotItemToExamine.applyDamage((int) numberOfTurns, null);
                 slotItemToExamine.count = curCount;
