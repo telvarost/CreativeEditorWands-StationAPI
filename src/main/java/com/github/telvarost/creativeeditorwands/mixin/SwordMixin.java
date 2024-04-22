@@ -44,11 +44,25 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
     }
 
     @Override
-    public String[] getTooltip(ItemInstance itemInstance, String originalTooltip) {
+    public String[] getTooltip(ItemInstance item, String originalTooltip) {
         if (  (this.id == ItemBase.woodSword.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            return new String[]{"Paint Brush", "Block: " + itemInstance.getDamage(), "Metadata: " + (itemInstance.count - 1)};
+            int paintId;
+            int paintMeta;
+
+            if (  (null  != PlayerHelper.getPlayerFromGame())
+               && (null  != PlayerHelper.getPlayerFromGame().level)
+               && (false == PlayerHelper.getPlayerFromGame().level.isServerSide)
+            ) {
+                paintId = item.getDamage();
+                paintMeta = (item.count - 1);
+            } else {
+                paintId = ModHelper.ModHelperFields.serverBlockId;
+                paintMeta = ModHelper.ModHelperFields.serverBlockMeta;
+            }
+
+            return new String[]{"Paint Brush", "Block: " + paintId, "Metadata: " + paintMeta};
         } else {
             return new String[]{originalTooltip};
         }
