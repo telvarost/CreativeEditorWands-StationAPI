@@ -65,5 +65,13 @@ public class ModHelper {
         public static Integer brushType = 1;
         public static Integer serverBlockId = 0;
         public static Integer serverBlockMeta = 0;
+
+        /** - Copy/Paste variables */
+        public static Integer copyPoint1_X = Integer.MAX_VALUE;
+        public static Integer copyPoint1_Y = Integer.MAX_VALUE;
+        public static Integer copyPoint1_Z = Integer.MAX_VALUE;
+        public static Integer copyPoint2_X = Integer.MAX_VALUE;
+        public static Integer copyPoint2_Y = Integer.MAX_VALUE;
+        public static Integer copyPoint2_Z = Integer.MAX_VALUE;
     }
 }

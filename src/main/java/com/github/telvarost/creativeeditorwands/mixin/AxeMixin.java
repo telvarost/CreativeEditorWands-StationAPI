@@ -27,13 +27,30 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
         if (  (this.id == ItemBase.woodAxe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            String selection = "null";
+            String selection1 = "null";
+            String selection2 = "null";
 
-            if (false) {
-                selection = "[" + 1 + "," + 2 + "," + 3 + "] to " + "[" + 1 + "," + 2 + "," + 3 + "]";
+            if (  (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_X)
+               && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Y)
+               && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Z)
+            ) {
+                selection1 = "[" + ModHelper.ModHelperFields.copyPoint1_X
+                           + "," + ModHelper.ModHelperFields.copyPoint1_Y
+                           + "," + ModHelper.ModHelperFields.copyPoint1_Z
+                           + "]";
+
+                if (  (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_X)
+                   && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_Y)
+                   && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_Z)
+                ) {
+                    selection2 = "[" + ModHelper.ModHelperFields.copyPoint2_X
+                               + "," + ModHelper.ModHelperFields.copyPoint2_Y
+                               + "," + ModHelper.ModHelperFields.copyPoint2_Z
+                               + "]";
+                }
             }
 
-            return new String[]{"Copy/Paste", "Selection: " + selection, "Mode: " + itemInstance.count};
+            return new String[]{"Copy/Paste", "Point 1: " + selection1, "Point 2: " + selection2, "Mode: " + itemInstance.count};
         } else {
             return new String[]{originalTooltip};
         }
@@ -46,6 +63,29 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
         ) {
             int blockId = level.getTileId(i, j, k);
             int blockMeta = level.getTileMeta(i, j, k);
+
+            if (  (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_X)
+               && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_Y)
+               && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_Z)
+            ) {
+                ModHelper.ModHelperFields.copyPoint1_X = Integer.MAX_VALUE;
+                ModHelper.ModHelperFields.copyPoint1_Y = Integer.MAX_VALUE;
+                ModHelper.ModHelperFields.copyPoint1_Z = Integer.MAX_VALUE;
+                ModHelper.ModHelperFields.copyPoint2_X = Integer.MAX_VALUE;
+                ModHelper.ModHelperFields.copyPoint2_Y = Integer.MAX_VALUE;
+                ModHelper.ModHelperFields.copyPoint2_Z = Integer.MAX_VALUE;
+            } else if (  (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_X)
+                      && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Y)
+                      && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Z)
+            ) {
+                ModHelper.ModHelperFields.copyPoint2_X = i;
+                ModHelper.ModHelperFields.copyPoint2_Y = j;
+                ModHelper.ModHelperFields.copyPoint2_Z = k;
+            } else {
+                ModHelper.ModHelperFields.copyPoint1_X = i;
+                ModHelper.ModHelperFields.copyPoint1_Y = j;
+                ModHelper.ModHelperFields.copyPoint1_Z = k;
+            }
 
             return true;
         } else {
