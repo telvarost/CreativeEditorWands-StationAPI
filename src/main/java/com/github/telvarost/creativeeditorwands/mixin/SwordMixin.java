@@ -109,9 +109,9 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
             }
 
             if (1 == ModHelper.ModHelperFields.brushType) {
-                creativeEditorWands_cubePaintBrush(level, x, y, z, paintId, paintMeta);
-            } else if (2 == ModHelper.ModHelperFields.brushType) {
                 creativeEditorWands_squarePaintBrush(level, x, y, z, paintId, paintMeta, meta);
+            } else if (2 == ModHelper.ModHelperFields.brushType) {
+                creativeEditorWands_cubePaintBrush(level, x, y, z, paintId, paintMeta);
             } else {
                 level.setTile(x, y, z, paintId);
                 level.setTileMeta(x, y, z, paintId);

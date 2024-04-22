@@ -76,9 +76,9 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
 
 
             if (1 == ModHelper.ModHelperFields.brushType) {
-                creativeEditorWands_cubeEraseBrush(level, i, j, k, eraseId, eraseMeta, eraseMatching);
-            } else if (2 == ModHelper.ModHelperFields.brushType) {
                 creativeEditorWands_squareEraseBrush(level, i, j, k, eraseId, eraseMeta, meta, eraseMatching);
+            } else if (2 == ModHelper.ModHelperFields.brushType) {
+                creativeEditorWands_cubeEraseBrush(level, i, j, k, eraseId, eraseMeta, eraseMatching);
             } else {
                 if (false == eraseMatching) {
                     level.setTile(i, j, k, 0);
