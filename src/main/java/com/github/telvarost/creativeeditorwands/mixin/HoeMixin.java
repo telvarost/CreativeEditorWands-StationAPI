@@ -1,6 +1,9 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
 import com.github.telvarost.creativeeditorwands.ModHelper;
+import net.minecraft.block.BlockBase;
+import net.minecraft.entity.EntityBase;
+import net.minecraft.entity.Living;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
@@ -19,6 +22,18 @@ public class HoeMixin extends ItemBase implements StationHoeItem, CustomTooltipP
     /** - Change paint/erase brush type with wooden hoe */
     public HoeMixin(int i, ToolMaterial arg) {
         super(i);
+    }
+
+    @Override
+    public float getStrengthOnBlock(ItemInstance arg, BlockBase arg2) {
+        if (  (this.id == ItemBase.woodHoe.id)
+           && (ModHelper.ModHelperFields.enableWorldEditTools)
+        ) {
+            int curCount = arg.count;
+            arg.applyDamage(1, null);
+            arg.count = curCount;
+        }
+        return 1.0F;
     }
 
     @Override

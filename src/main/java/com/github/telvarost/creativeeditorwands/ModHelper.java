@@ -5,7 +5,7 @@ import net.minecraft.item.ItemBase;
 public class ModHelper {
     public static final int WOODEN_TOOL_DURABILITY = 59;
     public static final int SELECTION_TOOL_DURABILITY = 64;
-    public static final int BRUSH_SIZE_DURABILITY = 100;
+    public static final int BRUSH_SIZE_DURABILITY = 99;
     public static final int BLOCK_ID_DURABILITY = 96;
 
     public static void AttemptToSetEditingToolProperties()
