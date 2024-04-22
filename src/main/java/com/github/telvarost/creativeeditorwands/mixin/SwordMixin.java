@@ -9,6 +9,7 @@ import net.minecraft.item.tool.Sword;
 import net.minecraft.item.tool.ToolMaterial;
 import net.minecraft.level.Level;
 import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
+import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import net.modificationstation.stationapi.api.item.tool.StationSwordItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -63,6 +64,15 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
             int z = k;
             int blockId = level.getTileId(i, j, k);
             int blockMeta = level.getTileMeta(i, j, k);
+            int paintId = item.getDamage();
+            int paintMeta = (item.count - 1);
+
+            if (  (null == PlayerHelper.getPlayerFromGame())
+               || (false != level.isServerSide)
+            ) {
+                paintId = ModHelper.ModHelperFields.serverBlockId;
+                paintMeta = ModHelper.ModHelperFields.serverBlockMeta;
+            }
 
             if (meta == 0) {
                 --y;
@@ -78,12 +88,12 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
                 ++x;
             }
 
-            if (0 == item.getDamage()) {
+            if (0 == paintId) {
                 level.setTile(x, y, z, blockId);
                 level.setTileMeta(x, y, z, blockMeta);
             } else {
-                level.setTile(x, y, z, item.getDamage());
-                level.setTileMeta(x, y, z, (item.count - 1));
+                level.setTile(x, y, z, paintId);
+                level.setTileMeta(x, y, z, paintMeta);
             }
 
             return true;

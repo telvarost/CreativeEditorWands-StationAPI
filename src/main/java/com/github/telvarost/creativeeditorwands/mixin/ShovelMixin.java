@@ -10,6 +10,7 @@ import net.minecraft.item.tool.ToolBase;
 import net.minecraft.item.tool.ToolMaterial;
 import net.minecraft.level.Level;
 import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
+import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
@@ -43,19 +44,27 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
             int z = k;
             int blockId = level.getTileId(i, j, k);
             int blockMeta = level.getTileMeta(i, j, k);
+            int eraseId = item.getDamage();
+            int eraseMeta = (item.count - 1);
 
-            if (0 == item.getDamage()) {
+            if (  (null == PlayerHelper.getPlayerFromGame())
+               || (false != level.isServerSide)
+            ) {
+                eraseId = ModHelper.ModHelperFields.serverBlockId;
+                eraseMeta = ModHelper.ModHelperFields.serverBlockMeta;
+            }
+
+            if (0 == eraseId) {
                 level.setTile(i, j, k, 0);
                 level.setTileMeta(i, j, k, 0);
             } else {
-                if (  (blockId   == item.getDamage())
-                   && (blockMeta == (item.count - 1))
+                if (  (blockId   == eraseId)
+                   && (blockMeta == eraseMeta)
                 ) {
                     level.setTile(i, j, k, 0);
                     level.setTileMeta(i, j, k, 0);
                 }
             }
-
 //            if (meta == 0) {
 //                --y;
 //            } else if (meta == 1) {

@@ -55,6 +55,9 @@ public class PickaxeMixin extends ToolBase implements CustomTooltipProvider {
             item.setDamage(blockId);
             item.count = (blockMeta + 1);
 
+            ModHelper.ModHelperFields.serverBlockId = blockId;
+            ModHelper.ModHelperFields.serverBlockMeta = blockMeta;
+
             return true;
         } else {
             return false;
