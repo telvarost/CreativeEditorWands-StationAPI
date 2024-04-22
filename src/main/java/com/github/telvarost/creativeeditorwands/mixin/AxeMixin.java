@@ -79,34 +79,41 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
 
             if (3 == item.count) {
                 /** - Fill selection */
+                if (  (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_X)
+                   && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Y)
+                   && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Z)
+                   && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_X)
+                   && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_Y)
+                   && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_Z)
+                ) {
+                    int add_x = 0;
+                    int add_y = 0;
+                    int add_z = 0;
 
-                int add_x = 0;
-                int add_y = 0;
-                int add_z = 0;
+                    if (ModHelper.ModHelperFields.copyPoint1_X < ModHelper.ModHelperFields.copyPoint2_X) {
+                        add_x = 1;
+                    } else if (ModHelper.ModHelperFields.copyPoint1_X > ModHelper.ModHelperFields.copyPoint2_X) {
+                        add_x = -1;
+                    }
 
-                if (ModHelper.ModHelperFields.copyPoint1_X < ModHelper.ModHelperFields.copyPoint2_X) {
-                    add_x = 1;
-                } else if (ModHelper.ModHelperFields.copyPoint1_X > ModHelper.ModHelperFields.copyPoint2_X) {
-                    add_x = -1;
-                }
+                    if (ModHelper.ModHelperFields.copyPoint1_Y < ModHelper.ModHelperFields.copyPoint2_Y) {
+                        add_y = 1;
+                    } else if (ModHelper.ModHelperFields.copyPoint1_Y > ModHelper.ModHelperFields.copyPoint2_Y) {
+                        add_y = -1;
+                    }
 
-                if (ModHelper.ModHelperFields.copyPoint1_Y < ModHelper.ModHelperFields.copyPoint2_Y) {
-                    add_y = 1;
-                } else if (ModHelper.ModHelperFields.copyPoint1_Y > ModHelper.ModHelperFields.copyPoint2_Y) {
-                    add_y = -1;
-                }
+                    if (ModHelper.ModHelperFields.copyPoint1_Z < ModHelper.ModHelperFields.copyPoint2_Z) {
+                        add_z = 1;
+                    } else if (ModHelper.ModHelperFields.copyPoint1_Z > ModHelper.ModHelperFields.copyPoint2_Z) {
+                        add_z = -1;
+                    }
 
-                if (ModHelper.ModHelperFields.copyPoint1_Z < ModHelper.ModHelperFields.copyPoint2_Z) {
-                    add_z = 1;
-                } else if (ModHelper.ModHelperFields.copyPoint1_Z > ModHelper.ModHelperFields.copyPoint2_Z) {
-                    add_z = -1;
-                }
-
-                for(int var6 = ModHelper.ModHelperFields.copyPoint1_X; var6 <= ModHelper.ModHelperFields.copyPoint2_X; var6 += add_x) {
-                    for(int var7 = ModHelper.ModHelperFields.copyPoint1_Y; var7 <= ModHelper.ModHelperFields.copyPoint2_Y; var7 += add_y) {
-                        for(int var8 = ModHelper.ModHelperFields.copyPoint1_Z; var8 <= ModHelper.ModHelperFields.copyPoint2_Z; var8 += add_z) {
-                            level.setTile(var6, var7, var8, blockId);
-                            level.setTileMeta(var6, var7, var8, blockMeta);
+                    for(int var6 = ModHelper.ModHelperFields.copyPoint1_X; var6 <= ModHelper.ModHelperFields.copyPoint2_X; var6 += add_x) {
+                        for(int var7 = ModHelper.ModHelperFields.copyPoint1_Y; var7 <= ModHelper.ModHelperFields.copyPoint2_Y; var7 += add_y) {
+                            for(int var8 = ModHelper.ModHelperFields.copyPoint1_Z; var8 <= ModHelper.ModHelperFields.copyPoint2_Z; var8 += add_z) {
+                                level.setTile(var6, var7, var8, blockId);
+                                level.setTileMeta(var6, var7, var8, blockMeta);
+                            }
                         }
                     }
                 }
