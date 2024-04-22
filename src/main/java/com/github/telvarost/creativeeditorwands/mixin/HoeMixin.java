@@ -25,13 +25,15 @@ public class HoeMixin extends ItemBase implements StationHoeItem, CustomTooltipP
     }
 
     @Override
-    public float getStrengthOnBlock(ItemInstance arg, BlockBase arg2) {
+    public float getStrengthOnBlock(ItemInstance item, BlockBase arg2) {
         if (  (this.id == ItemBase.woodHoe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            int curCount = arg.count;
-            arg.applyDamage(1, null);
-            arg.count = curCount;
+            int curCount = item.count;
+            item.applyDamage(1, null);
+            item.count = curCount;
+            ModHelper.ModHelperFields.brushSize = item.getDamage();
+            ModHelper.ModHelperFields.brushType = item.count;
         }
         return 1.0F;
     }

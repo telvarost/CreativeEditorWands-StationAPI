@@ -1,6 +1,7 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
 import com.github.telvarost.creativeeditorwands.ModHelper;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Living;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
@@ -12,6 +13,7 @@ import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import net.modificationstation.stationapi.api.item.tool.StationSwordItem;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -103,16 +105,38 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
             }
 
             if (0 == paintId) {
-                level.setTile(x, y, z, blockId);
-                level.setTileMeta(x, y, z, blockMeta);
+                if (1 == ModHelper.ModHelperFields.brushType) {
+                    creativeEditorWands_cubePaintBrush(level, x, y, z, blockId, blockMeta);
+                } else {
+                    level.setTile(x, y, z, blockId);
+                    level.setTileMeta(x, y, z, blockMeta);
+                }
             } else {
-                level.setTile(x, y, z, paintId);
-                level.setTileMeta(x, y, z, paintMeta);
+                if (1 == ModHelper.ModHelperFields.brushType) {
+                    creativeEditorWands_cubePaintBrush(level, x, y, z, paintId, paintMeta);
+                } else {
+                    level.setTile(x, y, z, paintId);
+                    level.setTileMeta(x, y, z, paintId);
+                }
             }
 
             return true;
         } else {
             return false;
+        }
+    }
+
+    @Unique
+    private void creativeEditorWands_cubePaintBrush(Level level, int x, int y, int z, int blockId, int blockMeta) {
+        byte var5 = ModHelper.ModHelperFields.brushSize.byteValue();
+
+        for(int var6 = x - var5; var6 <= x + var5; ++var6) {
+            for(int var7 = y - var5; var7 <= y + var5; ++var7) {
+                for(int var8 = z - var5; var8 <= z + var5; ++var8) {
+                    level.setTile(var6, var7, var8, blockId);
+                    level.setTileMeta(var6, var7, var8, blockMeta);
+                }
+            }
         }
     }
 }

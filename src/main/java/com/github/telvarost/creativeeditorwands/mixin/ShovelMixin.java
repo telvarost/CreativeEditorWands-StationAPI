@@ -13,6 +13,7 @@ import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(Shovel.class)
 public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
@@ -69,14 +70,22 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
             }
 
             if (0 == eraseId) {
-                level.setTile(i, j, k, 0);
-                level.setTileMeta(i, j, k, 0);
-            } else {
-                if (  (blockId   == eraseId)
-                   && (blockMeta == eraseMeta)
-                ) {
+                if (1 == ModHelper.ModHelperFields.brushType) {
+                    creativeEditorWands_cubeEraseBrush(level, i, j, k, eraseId, eraseMeta, false);
+                } else {
                     level.setTile(i, j, k, 0);
                     level.setTileMeta(i, j, k, 0);
+                }
+            } else {
+                if (1 == ModHelper.ModHelperFields.brushType) {
+                    creativeEditorWands_cubeEraseBrush(level, i, j, k, eraseId, eraseMeta, true);
+                } else {
+                    if (  (blockId == eraseId)
+                       && (blockMeta == eraseMeta)
+                    ) {
+                        level.setTile(i, j, k, 0);
+                        level.setTileMeta(i, j, k, 0);
+                    }
                 }
             }
 //            if (meta == 0) {
@@ -96,6 +105,31 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
             return true;
         } else {
             return false;
+        }
+    }
+
+    @Unique
+    private void creativeEditorWands_cubeEraseBrush(Level level, int x, int y, int z, int eraseId, int eraseMeta, boolean eraseMatching) {
+        byte var5 = ModHelper.ModHelperFields.brushSize.byteValue();
+
+        for(int var6 = x - var5; var6 <= x + var5; ++var6) {
+            for(int var7 = y - var5; var7 <= y + var5; ++var7) {
+                for(int var8 = z - var5; var8 <= z + var5; ++var8) {
+                    if (eraseMatching) {
+                        int blockId = level.getTileId(var6, var7, var8);
+                        int blockMeta = level.getTileMeta(var6, var7, var8);
+                        if (  (blockId == eraseId)
+                           && (blockMeta == eraseMeta)
+                        ) {
+                            level.setTile(var6, var7, var8, 0);
+                            level.setTileMeta(var6, var7, var8, 0);
+                        }
+                    } else {
+                        level.setTile(var6, var7, var8, 0);
+                        level.setTileMeta(var6, var7, var8, 0);
+                    }
+                }
+            }
         }
     }
 }
