@@ -41,7 +41,7 @@ public class HoeMixin extends ItemBase implements StationHoeItem, CustomTooltipP
         if (  (this.id == ItemBase.woodHoe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            return new String[]{"Brush Mode", "Size: " + itemInstance.getDamage(), "Type: " + itemInstance.count};
+            return new String[]{"§b" + "Brush Mode", "Size: " + itemInstance.getDamage(), "Type: " + itemInstance.count};
         } else {
             return new String[]{originalTooltip};
         }

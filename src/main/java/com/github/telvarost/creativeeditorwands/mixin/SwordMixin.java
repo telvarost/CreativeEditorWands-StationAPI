@@ -63,7 +63,7 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
                 paintMeta = ModHelper.ModHelperFields.serverBlockMeta;
             }
 
-            return new String[]{"Paint Brush", "Block: " + paintId, "Metadata: " + paintMeta};
+            return new String[]{"§b" + "Paint Brush", "Block: " + paintId, "Metadata: " + paintMeta};
         } else {
             return new String[]{originalTooltip};
         }

@@ -63,7 +63,7 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
                 }
             }
 
-            return new String[]{"Copy/Paste", "Point 1: " + selection1, "Point 2: " + selection2, "Mode: " + itemInstance.count};
+            return new String[]{"§b" + "Selection", "Point 1: " + selection1, "Point 2: " + selection2, "Mode: " + itemInstance.count};
         } else {
             return new String[]{originalTooltip};
         }

@@ -43,7 +43,7 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
                 paintMeta = ModHelper.ModHelperFields.serverBlockMeta;
             }
 
-            return new String[]{"Erase Brush", "Block: " + paintId, "Metadata: " + paintMeta};
+            return new String[]{"§b" + "Erase Brush", "Block: " + paintId, "Metadata: " + paintMeta};
         } else {
             return new String[]{originalTooltip};
         }

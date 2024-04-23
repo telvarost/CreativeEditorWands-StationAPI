@@ -27,7 +27,7 @@ public class PickaxeMixin extends ToolBase implements CustomTooltipProvider {
         if (  (this.id == ItemBase.woodPickaxe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            return new String[]{"Block Picker", "Block: " + itemInstance.getDamage(), "Metadata: " + (itemInstance.count - 1)};
+            return new String[]{"§b" + "Block Picker", "Block: " + itemInstance.getDamage(), "Metadata: " + (itemInstance.count - 1)};
         } else {
             return new String[]{originalTooltip};
         }
