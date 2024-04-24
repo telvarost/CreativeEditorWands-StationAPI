@@ -14,7 +14,7 @@ All changes only apply in creative mode
 * Erase with wooden shovel
 * Change paint/erase brush type with wooden hoe
 * Change paint/erase color with wooden pickaxe
-* Enable/disable world edit style tools with stick
+* Enable/disable world edit style tools with bedrock block
 
 ## Installation using Prism Launcher
 
