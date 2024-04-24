@@ -5,7 +5,7 @@
 A StationAPI mod for Minecraft Beta 1.7.3 that adds world edit type properties to wooden tools when enabled.
 * Mod (mostly) works on Multiplayer with GlassConfigAPI version 2.0+ used to sync configs!
 
-## (Planned) List of changes
+## List of changes
 
 All changes only apply when player is OP or in single-player with wands toggled on via bedrock.
 
