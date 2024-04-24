@@ -5,6 +5,7 @@ import com.github.telvarost.creativeeditorwands.ModHelper;
 import net.minecraft.entity.EntityBase;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.level.Level;
+import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,17 +28,20 @@ public class LevelMixin {
         if (  (!Config.config.disableAllEditingTools)
            && (arg instanceof PlayerBase)
         ) {
-            try {
-                ModHelper.getConnectionManager();
-                ModHelper.ModHelperFields.enableWorldEditTools = true;
-                ModHelper.AttemptToSetEditingToolProperties();
-            } catch (Exception ex) {
-                if (this.isServerSide) {
-                    if (Config.config.activateEditingToolTooltipsOnServer) {
-                        ModHelper.ModHelperFields.enableWorldEditTools = true;
-                    } else {
-                        ModHelper.ModHelperFields.enableWorldEditTools = false;
-                    }
+            if (  (null == PlayerHelper.getPlayerFromGame())
+               && (!this.isServerSide)
+            ) {
+                try {
+                    ModHelper.getConnectionManager();
+                    ModHelper.ModHelperFields.enableWorldEditTools = true;
+                    ModHelper.AttemptToSetEditingToolProperties();
+                } catch (Exception ex) {
+                }
+            } else if (this.isServerSide) {
+                if (Config.config.activateEditingToolTooltipsOnServer) {
+                    ModHelper.ModHelperFields.enableWorldEditTools = true;
+                } else {
+                    ModHelper.ModHelperFields.enableWorldEditTools = false;
                 }
             }
         }
