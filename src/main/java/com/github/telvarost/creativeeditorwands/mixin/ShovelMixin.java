@@ -1,6 +1,8 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
+import com.github.telvarost.creativeeditorwands.BHCreative;
 import com.github.telvarost.creativeeditorwands.ModHelper;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockBase;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
@@ -29,21 +31,27 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
         if (  (this.id == ItemBase.woodShovel.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
+            PlayerBase player = PlayerHelper.getPlayerFromGame();
             int paintId;
             int paintMeta;
 
-            if (  (null  != PlayerHelper.getPlayerFromGame())
-               && (null  != PlayerHelper.getPlayerFromGame().level)
-               && (false == PlayerHelper.getPlayerFromGame().level.isServerSide)
+            if (  (null != player)
+               && (ModHelper.IsPlayerCreative(player))
             ) {
-                paintId = item.getDamage();
-                paintMeta = (item.count - 1);
-            } else {
-                paintId = ModHelper.ModHelperFields.serverBlockId;
-                paintMeta = ModHelper.ModHelperFields.serverBlockMeta;
-            }
+                if (  (null != player.level)
+                   && (false == player.level.isServerSide)
+                ) {
+                    paintId = item.getDamage();
+                    paintMeta = (item.count - 1);
+                } else {
+                    paintId = ModHelper.ModHelperFields.serverBlockId;
+                    paintMeta = ModHelper.ModHelperFields.serverBlockMeta;
+                }
 
-            return new String[]{"§b" + "Erase Brush", "Block: " + paintId, "Metadata: " + paintMeta};
+                return new String[]{"§b" + "Erase Brush", "Block: " + paintId, "Metadata: " + paintMeta};
+            } else {
+                return new String[]{originalTooltip};
+            }
         } else {
             return new String[]{originalTooltip};
         }
@@ -53,6 +61,7 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
     public boolean useOnTile(ItemInstance item, PlayerBase player, Level level, int i, int j, int k, int meta) {
         if (  (this.id == ItemBase.woodShovel.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
+           && (ModHelper.IsPlayerCreative(player))
         ) {
             int x = i;
             int y = j;
@@ -90,20 +99,6 @@ public class ShovelMixin extends ToolBase implements CustomTooltipProvider {
                     level.setTileMeta(i, j, k, 0);
                 }
             }
-
-//            if (meta == 0) {
-//                --y;
-//            } else if (meta == 1) {
-//                ++y;
-//            } else if (meta == 2) {
-//                --z;
-//            } else if (meta == 3) {
-//                ++z;
-//            } else if (meta == 4) {
-//                --x;
-//            } else if (meta == 5) {
-//                ++x;
-//            }
 
             return true;
         } else {

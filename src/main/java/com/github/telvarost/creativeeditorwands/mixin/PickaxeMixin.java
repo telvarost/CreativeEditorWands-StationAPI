@@ -1,5 +1,6 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
+import com.github.telvarost.creativeeditorwands.BHCreative;
 import com.github.telvarost.creativeeditorwands.ModHelper;
 import net.minecraft.block.BlockBase;
 import net.minecraft.entity.player.PlayerBase;
@@ -10,6 +11,7 @@ import net.minecraft.item.tool.ToolBase;
 import net.minecraft.item.tool.ToolMaterial;
 import net.minecraft.level.Level;
 import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
+import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
@@ -27,16 +29,24 @@ public class PickaxeMixin extends ToolBase implements CustomTooltipProvider {
         if (  (this.id == ItemBase.woodPickaxe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            return new String[]{"§b" + "Block Picker", "Block: " + itemInstance.getDamage(), "Metadata: " + (itemInstance.count - 1)};
+            PlayerBase player = PlayerHelper.getPlayerFromGame();
+            if (  (null != player)
+               && (ModHelper.IsPlayerCreative(player))
+            ) {
+                return new String[]{"§b" + "Block Picker", "Block: " + itemInstance.getDamage(), "Metadata: " + (itemInstance.count - 1)};
+            } else {
+                return new String[]{originalTooltip};
+            }
         } else {
             return new String[]{originalTooltip};
         }
     }
 
     @Override
-    public ItemInstance use(ItemInstance item, Level arg2, PlayerBase arg3) {
+    public ItemInstance use(ItemInstance item, Level arg2, PlayerBase player) {
         if (  (this.id == ItemBase.woodPickaxe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
+           && (ModHelper.IsPlayerCreative(player))
         ) {
             item.setDamage(0);
             item.count = 1;
@@ -48,6 +58,7 @@ public class PickaxeMixin extends ToolBase implements CustomTooltipProvider {
     public boolean useOnTile(ItemInstance item, PlayerBase player, Level level, int i, int j, int k, int meta) {
         if (  (this.id == ItemBase.woodPickaxe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
+           && (ModHelper.IsPlayerCreative(player))
         ) {
             int blockId = level.getTileId(i, j, k);
             int blockMeta = level.getTileMeta(i, j, k);

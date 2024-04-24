@@ -76,9 +76,7 @@ dependencies {
 
 	// Mod Compat
 	// Beta Horizons Creative
-	modImplementation("com.github.paulevsGitch:BHCreative:${project.bhcreative_version}"){
-		transitive false
-	}
+	modImplementation "com.github.paulevsGitch:BHCreative:${project.bhcreative_version}"
 
 	// Optional, but convenient mods for mod creators and users alike.
 	modImplementation("com.github.calmilamsy:ModMenu:${project.modmenu_version}") {
@@ -90,8 +88,6 @@ dependencies {
 	modImplementation("net.glasslauncher:HowManyItems-Fabric-Unofficial:${project.howmanyitems_version}") {
 		transitive false
 	}
-
-	implementation(include('org.apache.commons:commons-math3:3.6.1'))
 }
 
 processResources {

@@ -1,5 +1,6 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
+import com.github.telvarost.creativeeditorwands.BHCreative;
 import com.github.telvarost.creativeeditorwands.ModHelper;
 import net.minecraft.entity.Living;
 import net.minecraft.entity.player.PlayerBase;
@@ -30,8 +31,12 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
     public void creativeEditorWands_postHit(ItemInstance arg, Living arg2, Living arg3, CallbackInfoReturnable<Boolean> cir) {
         if (  (this.id == ItemBase.woodSword.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
+           && (arg3 instanceof  PlayerBase)
         ) {
-            cir.setReturnValue(true);
+            PlayerBase player = (PlayerBase) arg3;
+            if (ModHelper.IsPlayerCreative(player)) {
+                cir.setReturnValue(true);
+            }
         }
     }
 
@@ -39,8 +44,12 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
     public void creativeEditorWands_postMine(ItemInstance arg, int i, int j, int k, int l, Living arg2, CallbackInfoReturnable<Boolean> cir) {
         if (  (this.id == ItemBase.woodSword.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
+           && (arg2 instanceof  PlayerBase)
         ) {
-            cir.setReturnValue(true);
+            PlayerBase player = (PlayerBase) arg2;
+            if (ModHelper.IsPlayerCreative(player)) {
+                cir.setReturnValue(true);
+            }
         }
     }
 
@@ -49,21 +58,27 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
         if (  (this.id == ItemBase.woodSword.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
+            PlayerBase player = PlayerHelper.getPlayerFromGame();
             int paintId;
             int paintMeta;
 
-            if (  (null  != PlayerHelper.getPlayerFromGame())
-               && (null  != PlayerHelper.getPlayerFromGame().level)
-               && (false == PlayerHelper.getPlayerFromGame().level.isServerSide)
+            if (  (null != player)
+               && (ModHelper.IsPlayerCreative(player))
             ) {
-                paintId = item.getDamage();
-                paintMeta = (item.count - 1);
-            } else {
-                paintId = ModHelper.ModHelperFields.serverBlockId;
-                paintMeta = ModHelper.ModHelperFields.serverBlockMeta;
-            }
+                if (  (null != player.level)
+                   && (false == player.level.isServerSide)
+                ) {
+                    paintId = item.getDamage();
+                    paintMeta = (item.count - 1);
+                } else {
+                    paintId = ModHelper.ModHelperFields.serverBlockId;
+                    paintMeta = ModHelper.ModHelperFields.serverBlockMeta;
+                }
 
-            return new String[]{"§b" + "Paint Brush", "Block: " + paintId, "Metadata: " + paintMeta};
+                return new String[]{"§b" + "Paint Brush", "Block: " + paintId, "Metadata: " + paintMeta};
+            } else {
+                return new String[]{originalTooltip};
+            }
         } else {
             return new String[]{originalTooltip};
         }
@@ -73,6 +88,7 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
     public boolean useOnTile(ItemInstance item, PlayerBase player, Level level, int i, int j, int k, int meta) {
         if (  (this.id == ItemBase.woodSword.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
+           && (ModHelper.IsPlayerCreative(player))
         ) {
             int x = i;
             int y = j;

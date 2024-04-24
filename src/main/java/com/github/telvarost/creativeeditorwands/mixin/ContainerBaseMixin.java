@@ -1,11 +1,14 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
+import com.github.telvarost.creativeeditorwands.BHCreative;
 import com.github.telvarost.creativeeditorwands.ModHelper;
 import net.minecraft.client.gui.screen.ScreenBase;
 import net.minecraft.client.gui.screen.container.ContainerBase;
+import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.container.slot.Slot;
+import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,42 +29,40 @@ public abstract class ContainerBaseMixin extends ScreenBase {
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     protected void creativeEditorWands_mouseClicked(int mouseX, int mouseY, int button, CallbackInfo ci) {
 
-//        /** - Check if client is on a server */
-//        boolean isClientOnServer = minecraft.level.isServerSide;
-//
-//        /** - Right-click */
-//        if (button == 1) {
-//        }
-
         /** - Left-click */
         if (button == 0) {
             if (ModHelper.ModHelperFields.enableWorldEditTools) {
-                if (!minecraft.level.isServerSide) {
-                    slot = this.getSlot(mouseX, mouseY);
+                PlayerBase player = PlayerHelper.getPlayerFromGame();
+                if (  (null != player)
+                   && (ModHelper.IsPlayerCreative(player))
+                ) {
+                    if (!minecraft.level.isServerSide) {
+                        slot = this.getSlot(mouseX, mouseY);
 
-                    /** - Do nothing if mouse is not over a slot */
-                    if (slot == null)
-                        return;
+                        /** - Do nothing if mouse is not over a slot */
+                        if (slot == null)
+                            return;
 
-                    ItemInstance cursorStack = minecraft.player.inventory.getCursorItem();
-                    ItemInstance slotItemToExamine = slot.getItem();
+                        ItemInstance cursorStack = minecraft.player.inventory.getCursorItem();
+                        ItemInstance slotItemToExamine = slot.getItem();
 
-                    if (   (null != cursorStack)
-                        && (null != slotItemToExamine)
-                        &&  (  (cursorStack.itemId == ItemBase.woodPickaxe.id)
-                            || (cursorStack.itemId == ItemBase.woodShovel.id)
-                            || (cursorStack.itemId == ItemBase.woodSword.id)
-                            )
-                        &&  (  (slotItemToExamine.itemId == ItemBase.woodPickaxe.id)
-                            || (slotItemToExamine.itemId == ItemBase.woodShovel.id)
-                            || (slotItemToExamine.itemId == ItemBase.woodSword.id)
-                            )
-                    ) {
-                        slotItemToExamine.setDamage(cursorStack.getDamage());
-                        slotItemToExamine.count = cursorStack.count;
-                        super.mouseClicked(mouseX, mouseY, button);
-                        ci.cancel();
-                        return;
+                        if (   (null != cursorStack)
+                            && (null != slotItemToExamine)
+                            && (   (cursorStack.itemId == ItemBase.woodPickaxe.id)
+                                || (cursorStack.itemId == ItemBase.woodShovel.id)
+                                || (cursorStack.itemId == ItemBase.woodSword.id)
+                               )
+                            && (   (slotItemToExamine.itemId == ItemBase.woodPickaxe.id)
+                                || (slotItemToExamine.itemId == ItemBase.woodShovel.id)
+                                || (slotItemToExamine.itemId == ItemBase.woodSword.id)
+                               )
+                        ) {
+                            slotItemToExamine.setDamage(cursorStack.getDamage());
+                            slotItemToExamine.count = cursorStack.count;
+                            super.mouseClicked(mouseX, mouseY, button);
+                            ci.cancel();
+                            return;
+                        }
                     }
                 }
             }
@@ -80,10 +81,14 @@ public abstract class ContainerBaseMixin extends ScreenBase {
                     return;
 
                 int currentWheelDegrees = Mouse.getDWheel();
-                if (  (0 != currentWheelDegrees)
-                ) {
-                    /** - Handle scroll wheel */
-                    creativeEditorWands_handleScrollWheel(currentWheelDegrees);
+                if (0 != currentWheelDegrees) {
+                    PlayerBase player = PlayerHelper.getPlayerFromGame();
+                    if (  (null != player)
+                       && (ModHelper.IsPlayerCreative(player))
+                    ) {
+                        /** - Handle scroll wheel */
+                        creativeEditorWands_handleScrollWheel(currentWheelDegrees);
+                    }
                 }
             }
         }

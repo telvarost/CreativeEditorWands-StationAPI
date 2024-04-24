@@ -1,5 +1,6 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
+import com.github.telvarost.creativeeditorwands.BHCreative;
 import com.github.telvarost.creativeeditorwands.ModHelper;
 import net.minecraft.block.BlockBase;
 import net.minecraft.entity.player.PlayerBase;
@@ -9,6 +10,7 @@ import net.minecraft.item.tool.Hoe;
 import net.minecraft.item.tool.ToolMaterial;
 import net.minecraft.level.Level;
 import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
+import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import net.modificationstation.stationapi.api.item.tool.StationHoeItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,35 +24,45 @@ public class HoeMixin extends ItemBase implements StationHoeItem, CustomTooltipP
         super(i);
     }
 
-    @Override
-    public float getStrengthOnBlock(ItemInstance item, BlockBase arg2) {
-        if (  (this.id == ItemBase.woodHoe.id)
-           && (ModHelper.ModHelperFields.enableWorldEditTools)
-        ) {
-            int curCount = item.count;
-            item.applyDamage(1, null);
-            item.count = curCount;
-            ModHelper.ModHelperFields.brushSize = item.getDamage();
-            ModHelper.ModHelperFields.brushType = item.count;
-        }
-        return 1.0F;
-    }
+//    @Override
+//    public float getStrengthOnBlock(ItemInstance item, BlockBase arg2) {
+//        if (  (this.id == ItemBase.woodHoe.id)
+//           && (ModHelper.ModHelperFields.enableWorldEditTools)
+//                && (ModHelper.ModHelperFields.bhcreativeLoaded)
+//                && (BHCreative.get(player))
+//        ) {
+//            int curCount = item.count;
+//            item.applyDamage(1, null);
+//            item.count = curCount;
+//            ModHelper.ModHelperFields.brushSize = item.getDamage();
+//            ModHelper.ModHelperFields.brushType = item.count;
+//        }
+//        return 1.0F;
+//    }
 
     @Override
     public String[] getTooltip(ItemInstance itemInstance, String originalTooltip) {
         if (  (this.id == ItemBase.woodHoe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            return new String[]{"§b" + "Brush Mode", "Size: " + itemInstance.getDamage(), "Type: " + itemInstance.count};
+            PlayerBase player = PlayerHelper.getPlayerFromGame();
+            if (  (null != player)
+               && (ModHelper.IsPlayerCreative(player))
+            ) {
+                return new String[]{"§b" + "Brush Mode", "Size: " + itemInstance.getDamage(), "Type: " + itemInstance.count};
+            } else {
+                return new String[]{originalTooltip};
+            }
         } else {
             return new String[]{originalTooltip};
         }
     }
 
     @Override
-    public ItemInstance use(ItemInstance item, Level arg2, PlayerBase arg3) {
+    public ItemInstance use(ItemInstance item, Level arg2, PlayerBase player) {
         if (  (this.id == ItemBase.woodHoe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
+           && (ModHelper.IsPlayerCreative(player))
         ) {
             ModHelper.ModHelperFields.brushSize = item.getDamage();
             ModHelper.ModHelperFields.brushType = item.count;
@@ -59,9 +71,10 @@ public class HoeMixin extends ItemBase implements StationHoeItem, CustomTooltipP
     }
 
     @Inject(method = "useOnTile", at = @At("HEAD"), cancellable = true)
-    public void useOnTile(ItemInstance item, PlayerBase arg2, Level arg3, int i, int j, int k, int l, CallbackInfoReturnable<Boolean> cir) {
+    public void useOnTile(ItemInstance item, PlayerBase player, Level arg3, int i, int j, int k, int l, CallbackInfoReturnable<Boolean> cir) {
         if (  (this.id == ItemBase.woodHoe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
+           && (ModHelper.IsPlayerCreative(player))
         ) {
             if (3 <= item.count) {
                 item.count = 1;

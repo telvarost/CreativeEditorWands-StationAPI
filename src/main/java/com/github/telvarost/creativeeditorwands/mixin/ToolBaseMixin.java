@@ -1,8 +1,10 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
+import com.github.telvarost.creativeeditorwands.BHCreative;
 import com.github.telvarost.creativeeditorwands.ModHelper;
 import net.minecraft.block.BlockBase;
 import net.minecraft.entity.Living;
+import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.item.tool.ToolBase;
@@ -26,8 +28,12 @@ public class ToolBaseMixin extends ItemBase implements StationToolItem {
               || (this.id == ItemBase.woodAxe.id)
               || (this.id == ItemBase.woodPickaxe.id)
               )
+           && (arg3 instanceof  PlayerBase)
         ) {
-            cir.setReturnValue(true);
+            PlayerBase player = (PlayerBase) arg2;
+            if (ModHelper.IsPlayerCreative(player)) {
+                cir.setReturnValue(true);
+            }
         }
     }
 
@@ -38,8 +44,12 @@ public class ToolBaseMixin extends ItemBase implements StationToolItem {
               || (this.id == ItemBase.woodAxe.id)
               || (this.id == ItemBase.woodPickaxe.id)
               )
+           && (arg2 instanceof PlayerBase)
         ) {
-            cir.setReturnValue(true);
+            PlayerBase player = (PlayerBase) arg2;
+            if (ModHelper.IsPlayerCreative(player)) {
+                cir.setReturnValue(true);
+            }
         }
     }
 }

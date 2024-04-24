@@ -1,12 +1,43 @@
 package com.github.telvarost.creativeeditorwands;
 
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.ServerPlayerConnectionManager;
+import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 
 public class ModHelper {
     public static final int WOODEN_TOOL_DURABILITY = 59;
     public static final int SELECTION_TOOL_DURABILITY = 64;
     public static int BRUSH_SIZE_DURABILITY = 25;
     public static final int BLOCK_ID_DURABILITY = 96;
+
+    public static MinecraftServer getServer() {
+        return (MinecraftServer) FabricLoader.getInstance().getGameInstance();
+    }
+
+    public static ServerPlayerConnectionManager getConnectionManager() {
+        return getServer().serverPlayerConnectionManager;
+    }
+
+    public static boolean IsPlayerCreative(PlayerBase player) {
+        if (null != player) {
+            if (  (null != PlayerHelper.getPlayerFromGame())
+               && (null != player.level)
+               && (false == player.level.isServerSide)
+            ) {
+                return true;
+            } else {
+                return ModHelper.getConnectionManager().isOp(player.name);
+            }
+//        return (  (ModHelperFields.bhcreativeLoaded)
+//               && (BHCreative.get(player))
+//               );
+        } else {
+            return false;
+        }
+    }
 
     public static void AttemptToSetEditingToolProperties()
     {
@@ -58,7 +89,7 @@ public class ModHelper {
     }
 
     public static class ModHelperFields {
-
+        public static Boolean bhcreativeLoaded = false;
         public static Boolean blocksAndItemsRegistered = false;
         public static Boolean enableWorldEditTools = true;
         public static Integer brushSize = 0;

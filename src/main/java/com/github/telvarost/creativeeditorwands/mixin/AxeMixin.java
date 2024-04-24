@@ -1,5 +1,6 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
+import com.github.telvarost.creativeeditorwands.BHCreative;
 import com.github.telvarost.creativeeditorwands.ModHelper;
 import net.minecraft.block.BlockBase;
 import net.minecraft.entity.player.PlayerBase;
@@ -10,6 +11,7 @@ import net.minecraft.item.tool.ToolBase;
 import net.minecraft.item.tool.ToolMaterial;
 import net.minecraft.level.Level;
 import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
+import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
@@ -23,9 +25,10 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
     }
 
     @Override
-    public ItemInstance use(ItemInstance item, Level arg2, PlayerBase arg3) {
+    public ItemInstance use(ItemInstance item, Level arg2, PlayerBase player) {
         if (  (this.id == ItemBase.woodAxe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
+           && (ModHelper.IsPlayerCreative(player))
         ) {
             item.count++;
             if (3 < item.count) {
@@ -40,30 +43,37 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
         if (  (this.id == ItemBase.woodAxe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            String selection1 = "null";
-            String selection2 = "null";
-
-            if (  (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_X)
-               && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Y)
-               && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Z)
+            PlayerBase player = PlayerHelper.getPlayerFromGame();
+            if (  (null != player)
+               && (ModHelper.IsPlayerCreative(player))
             ) {
-                selection1 = "[" + ModHelper.ModHelperFields.copyPoint1_X
-                           + "," + ModHelper.ModHelperFields.copyPoint1_Y
-                           + "," + ModHelper.ModHelperFields.copyPoint1_Z
-                           + "]";
+                String selection1 = "null";
+                String selection2 = "null";
 
-                if (  (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_X)
-                   && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_Y)
-                   && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_Z)
+                if (  (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_X)
+                   && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Y)
+                   && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Z)
                 ) {
-                    selection2 = "[" + ModHelper.ModHelperFields.copyPoint2_X
-                               + "," + ModHelper.ModHelperFields.copyPoint2_Y
-                               + "," + ModHelper.ModHelperFields.copyPoint2_Z
+                    selection1 = "[" + ModHelper.ModHelperFields.copyPoint1_X
+                               + "," + ModHelper.ModHelperFields.copyPoint1_Y
+                               + "," + ModHelper.ModHelperFields.copyPoint1_Z
                                + "]";
-                }
-            }
 
-            return new String[]{"§b" + "Selection", "Point 1: " + selection1, "Point 2: " + selection2, "Mode: " + itemInstance.count};
+                    if ((Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_X)
+                            && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_Y)
+                            && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint2_Z)
+                    ) {
+                        selection2 = "[" + ModHelper.ModHelperFields.copyPoint2_X
+                                   + "," + ModHelper.ModHelperFields.copyPoint2_Y
+                                   + "," + ModHelper.ModHelperFields.copyPoint2_Z
+                                   + "]";
+                    }
+                }
+
+                return new String[]{"§b" + "Selection", "Point 1: " + selection1, "Point 2: " + selection2, "Mode: " + itemInstance.count};
+            } else {
+                return new String[]{originalTooltip};
+            }
         } else {
             return new String[]{originalTooltip};
         }
@@ -73,6 +83,7 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
     public boolean useOnTile(ItemInstance item, PlayerBase player, Level level, int i, int j, int k, int meta) {
         if (  (this.id == ItemBase.woodAxe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
+           && (ModHelper.IsPlayerCreative(player))
         ) {
             int blockId = level.getTileId(i, j, k);
             int blockMeta = level.getTileMeta(i, j, k);
