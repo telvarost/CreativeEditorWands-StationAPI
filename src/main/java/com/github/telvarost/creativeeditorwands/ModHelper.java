@@ -95,6 +95,7 @@ public class ModHelper {
     public static void SetEnableWorldEditTools(boolean setEnable) {
         if (Config.config.enableTogglingEditingToolsWithBedrock) {
             ModHelperFields.enableWorldEditTools = setEnable;
+            AttemptToSetEditingToolProperties();
         }
     }
 

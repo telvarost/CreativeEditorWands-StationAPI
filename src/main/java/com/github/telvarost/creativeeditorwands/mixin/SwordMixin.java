@@ -2,6 +2,7 @@ package com.github.telvarost.creativeeditorwands.mixin;
 
 import com.github.telvarost.creativeeditorwands.BHCreative;
 import com.github.telvarost.creativeeditorwands.ModHelper;
+import net.minecraft.block.BlockBase;
 import net.minecraft.entity.Living;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
@@ -75,7 +76,9 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
                     paintMeta = ModHelper.ModHelperFields.serverBlockMeta;
                 }
 
-                return new String[]{"§b" + "Paint Brush", "Block: " + paintId, "Metadata: " + paintMeta};
+                return new String[]{ "§b" + "Paint Brush"
+                                   , "Block: " + paintId + " (" + BlockBase.BY_ID[paintId].getTranslatedName() + ")"
+                                   , "Metadata: " + paintMeta };
             } else {
                 return new String[]{originalTooltip};
             }

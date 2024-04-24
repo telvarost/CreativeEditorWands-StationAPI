@@ -49,7 +49,19 @@ public class HoeMixin extends ItemBase implements StationHoeItem, CustomTooltipP
             if (  (null != player)
                && (ModHelper.IsPlayerCreative(player))
             ) {
-                return new String[]{"§b" + "Brush Mode", "Size: " + itemInstance.getDamage(), "Type: " + itemInstance.count};
+                String brushType = "Point";
+
+                switch (itemInstance.count) {
+                    case 1:
+                        brushType = "Square";
+                        break;
+
+                    case 2:
+                        brushType = "Cube";
+                        break;
+                }
+
+                return new String[]{"§b" + "Brush Mode", "Size: " + itemInstance.getDamage(), "Type: " + brushType};
             } else {
                 return new String[]{originalTooltip};
             }

@@ -33,7 +33,11 @@ public class PickaxeMixin extends ToolBase implements CustomTooltipProvider {
             if (  (null != player)
                && (ModHelper.IsPlayerCreative(player))
             ) {
-                return new String[]{"§b" + "Block Picker", "Block: " + itemInstance.getDamage(), "Metadata: " + (itemInstance.count - 1)};
+                int paintId = itemInstance.getDamage();
+                int paintMeta = (itemInstance.count - 1);
+                return new String[]{ "§b" + "Block Picker"
+                                   , "Block: " + paintId + " (" + BlockBase.BY_ID[paintId].getTranslatedName() + ")"
+                                   , "Metadata: " + paintMeta };
             } else {
                 return new String[]{originalTooltip};
             }
