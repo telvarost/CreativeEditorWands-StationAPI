@@ -7,7 +7,7 @@ A StationAPI mod for Minecraft Beta 1.7.3 that adds world edit type properties t
 
 ## List of changes
 
-All changes only apply when player is OP or in single-player with wands toggled on via bedrock.
+All changes only apply when player is OP or in single-player toggle wands on/off via bedrock.
 
 * Selection Tool (wooden axe)
   * Mode 1: Select two points (`right-click`)
@@ -36,6 +36,7 @@ All changes only apply when player is OP or in single-player with wands toggled 
   * Use `right-click` in the air to apply brush mode
 * Enable/disable creative editor wands tools with bedrock block
   * Use `right-click` to enable/disable creative editor wands
+    * This is a single-player only feature
 
 ## Installation using Prism Launcher
 
@@ -53,6 +54,6 @@ Got any suggestions on what should be added next? Feel free to share it by [crea
 
 ## Contributing
 
-Thanks for considering contributing! To get started fork this repository, make your changes, and create a PR. 
+Thanks for considering contributing! To get started fork this repository, make your changes, and create a PR.
 
 If you are new to StationAPI consider watching the following videos on Babric/StationAPI Minecraft modding: https://www.youtube.com/watch?v=9-sVGjnGJ5s&list=PLa2JWzyvH63wGcj5-i0P12VkJG7PDyo9T
