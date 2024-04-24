@@ -9,7 +9,7 @@ All changes only apply when player is OP or in single-player toggle wands on/off
 
 * Selection Tool (wooden axe)
   * Mode 1: Select two points (`right-click`)
-  * Mode 2: Copy selection (area between the two points) over to the new area `right-click` (starting at point 1)
+  * Mode 2: Copy selection (area between the two points) over to the new area `right-click`
   * Mode 3: Fill selection (area between the two points) with whatever block is `right-clicked`
 * Paint Brush (wooden sword)
   * Draw with `right-click`
