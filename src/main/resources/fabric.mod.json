@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "CreativeEditorWands",
-  "description": "Adds world edit style properties to wooden tools when in creative mode (disable/enable using wooden stick).",
+  "description": "Adds world edit style properties to wooden tools when enabled.",
   "authors": [
     "Telvarost"
   ],
