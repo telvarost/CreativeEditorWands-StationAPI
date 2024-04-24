@@ -3,12 +3,11 @@
 ## This mod is in progress and not complete yet
 
 A StationAPI mod for Minecraft Beta 1.7.3 that adds world edit type properties to wooden tools when in creative mode (disable/enable using wooden stick).
-* This mod requires [BHCreative](https://modrinth.com/mod/bh-creative)
 * (Planned) Mod works on Multiplayer with GlassConfigAPI version 2.0+ used to sync configs!
 
 ## (Planned) List of changes
 
-All changes only apply in creative mode
+All changes only apply when player is OP or in single-player with wands toggled on via bedrock.
 * Copy/paste with wooden axe
 * Paint with wooden sword
 * Erase with wooden shovel
