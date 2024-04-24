@@ -10,19 +10,19 @@ public class Config {
 
     public static class ConfigFields {
 
-        @ConfigName("Enable Toggling Editing Tools With Bone")
+        @ConfigName("Enable Toggling Editing Tools With Bedrock")
         @MultiplayerSynced
         @ValueOnVanillaServer(booleanValue = TriBoolean.FALSE)
-        public Boolean enableTogglingEditingToolsWithBone = true;
+        public Boolean enableTogglingEditingToolsWithBedrock = true;
 
         @ConfigName("Disable All Editing Tools")
         @MultiplayerSynced
         @ValueOnVanillaServer(booleanValue = TriBoolean.FALSE)
         public Boolean disableAllEditingTools = false;
 
-        @ConfigName("Use Vanilla Item Editing Tools")
-        @MultiplayerSynced
-        @ValueOnVanillaServer(booleanValue = TriBoolean.FALSE)
-        public Boolean useVanillaItemEditingTools = true;
+//        @ConfigName("Use Vanilla Item Editing Tools")
+//        @MultiplayerSynced
+//        @ValueOnVanillaServer(booleanValue = TriBoolean.FALSE)
+//        public Boolean useVanillaItemEditingTools = true;
     }
 }

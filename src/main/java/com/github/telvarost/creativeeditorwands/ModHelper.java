@@ -42,6 +42,10 @@ public class ModHelper {
     public static void AttemptToSetEditingToolProperties()
     {
         if (ModHelper.ModHelperFields.blocksAndItemsRegistered) {
+            ModHelper.ModHelperFields.enableWorldEditTools = (  (ModHelper.ModHelperFields.enableWorldEditTools)
+                                                             && (false == Config.config.disableAllEditingTools)
+                                                             );
+
             if (ModHelper.ModHelperFields.enableWorldEditTools) {
 
                 if (SELECTION_TOOL_DURABILITY != ItemBase.woodAxe.getDurability()) {
@@ -88,10 +92,16 @@ public class ModHelper {
         }
     }
 
+    public static void SetEnableWorldEditTools(boolean setEnable) {
+        if (Config.config.enableTogglingEditingToolsWithBedrock) {
+            ModHelperFields.enableWorldEditTools = setEnable;
+        }
+    }
+
     public static class ModHelperFields {
         public static Boolean bhcreativeLoaded = false;
         public static Boolean blocksAndItemsRegistered = false;
-        public static Boolean enableWorldEditTools = true;
+        public static Boolean enableWorldEditTools = false;
         public static Integer brushSize = 0;
         public static Integer brushType = 1;
         public static Integer serverBlockId = 0;

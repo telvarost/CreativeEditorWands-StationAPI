@@ -52,8 +52,7 @@ public abstract class ContainerBaseMixin extends ScreenBase {
                                 || (cursorStack.itemId == ItemBase.woodShovel.id)
                                 || (cursorStack.itemId == ItemBase.woodSword.id)
                                )
-                            && (   (slotItemToExamine.itemId == ItemBase.woodPickaxe.id)
-                                || (slotItemToExamine.itemId == ItemBase.woodShovel.id)
+                            && (   (slotItemToExamine.itemId == ItemBase.woodShovel.id)
                                 || (slotItemToExamine.itemId == ItemBase.woodSword.id)
                                )
                         ) {
