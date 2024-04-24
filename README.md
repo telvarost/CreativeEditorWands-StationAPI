@@ -3,17 +3,39 @@
 ## This mod is in progress and not complete yet
 
 A StationAPI mod for Minecraft Beta 1.7.3 that adds world edit type properties to wooden tools when in creative mode (disable/enable using wooden stick).
-* (Planned) Mod works on Multiplayer with GlassConfigAPI version 2.0+ used to sync configs!
+* Mod (mostly) works on Multiplayer with GlassConfigAPI version 2.0+ used to sync configs!
 
 ## (Planned) List of changes
 
 All changes only apply when player is OP or in single-player with wands toggled on via bedrock.
-* Copy/paste with wooden axe
-* Paint with wooden sword
-* Erase with wooden shovel
-* Change paint/erase brush type with wooden hoe
-* Change paint/erase color with wooden pickaxe
-* Enable/disable world edit style tools with bedrock block
+
+* Selection Tool (wooden axe)
+  * Mode 1: Select two points (`right-click`)
+  * Mode 2: Copy selection (area between the two points) over to the new area `right-click` (starting at point 1)
+  * Mode 3: Fill selection (area between the two points) with whatever block is `right-clicked`
+* Paint Brush (wooden sword)
+  * Draw with `right-click`
+    * Block ID zero means copy `right-clicked` block and use it to draw
+  * Use `scroll-wheel` in inventory to select block type
+  * Hold `left-shift` and use `scroll-wheel` to select block metadata
+* Erase Brush (wooden shovel)
+  * Erase with `right-click`
+    * Block ID zero means erase any block
+  * Use `scroll-wheel` in inventory to select block type
+  * Hold `left-shift` and use `scroll-wheel` to select block metadata
+* Block Picker (wooden pickaxe)
+  * Select block ID and metadata with `right-click`
+    * In single-player in inventory pick up the pickaxe and click a brush to apply the color to it
+    * In multiplayer the selected block will be used for all brushes
+  * Use `scroll-wheel` in inventory to select block type
+  * Hold `left-shift` and use `scroll-wheel` to select block metadata
+* Brush Mode (wooden hoe)
+  * Use `scroll-wheel` in inventory to change brush size
+    * No way to change brush size in multiplayer yet
+  * Use `right-click` on a block to change brush type and apply brush mode
+  * Use `right-click` in the air to apply brush mode
+* Enable/disable creative editor wands tools with bedrock block
+  * Use `right-click` to enable/disable creative editor wands
 
 ## Installation using Prism Launcher
 
