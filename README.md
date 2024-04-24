@@ -1,7 +1,5 @@
 # CreativeEditorWands StationAPI Edition for Minecraft Beta 1.7.3
 
-## This mod is in progress and not complete yet
-
 A StationAPI mod for Minecraft Beta 1.7.3 that adds world edit type properties to wooden tools when enabled.
 * Mod (mostly) works on Multiplayer with GlassConfigAPI version 2.0+ used to sync configs!
 
