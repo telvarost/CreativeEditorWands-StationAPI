@@ -1,6 +1,7 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
 import com.github.telvarost.creativeeditorwands.ModHelper;
+import net.minecraft.entity.Living;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
@@ -22,21 +23,21 @@ public class HoeMixin extends ItemBase implements StationHoeItem, CustomTooltipP
         super(i);
     }
 
-//    @Override
-//    public float getStrengthOnBlock(ItemInstance item, BlockBase arg2) {
-//        if (  (this.id == ItemBase.woodHoe.id)
-//           && (ModHelper.ModHelperFields.enableWorldEditTools)
-//                && (ModHelper.ModHelperFields.bhcreativeLoaded)
-//                && (BHCreative.get(player))
-//        ) {
-//            int curCount = item.count;
-//            item.applyDamage(1, null);
-//            item.count = curCount;
-//            ModHelper.ModHelperFields.brushSize = item.getDamage();
-//            ModHelper.ModHelperFields.brushType = item.count;
-//        }
-//        return 1.0F;
-//    }
+    @Override
+    public boolean postHit(ItemInstance item, Living arg2, Living arg3) {
+        if (  (this.id == ItemBase.woodHoe.id)
+           && (ModHelper.ModHelperFields.enableWorldEditTools)
+           && (arg3 instanceof  PlayerBase)
+           && (ModHelper.IsPlayerCreative((PlayerBase) arg3))
+        ) {
+            int curCount = item.count;
+            item.applyDamage(1, null);
+            item.count = curCount;
+            ModHelper.ModHelperFields.brushSize = item.getDamage();
+            ModHelper.ModHelperFields.brushType = item.count;
+        }
+        return false;
+    }
 
     @Override
     public String[] getTooltip(ItemInstance itemInstance, String originalTooltip) {

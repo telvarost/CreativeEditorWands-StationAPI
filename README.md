@@ -31,7 +31,7 @@ All changes only apply when player is OP or in single-player with wands toggled 
   * Hold `left-shift` and use `scroll-wheel` to select block metadata
 * Brush Mode (wooden hoe)
   * Use `scroll-wheel` in inventory to change brush size
-    * No way to change brush size in multiplayer yet
+    * Hit living entities to change brush size in multiplayer (also works in single-player)
   * Use `right-click` on a block to change brush type and apply brush mode
   * Use `right-click` in the air to apply brush mode
 * Enable/disable creative editor wands tools with bedrock block
