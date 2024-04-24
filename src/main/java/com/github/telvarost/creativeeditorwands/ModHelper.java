@@ -25,8 +25,12 @@ public class ModHelper {
         if (null != player) {
             if (null != PlayerHelper.getPlayerFromGame()) {
                 return true;
-            } else {
+            } else if (  (null != player.level)
+                      && (!player.level.isServerSide)
+            ) {
                 return ModHelper.getConnectionManager().isOp(player.name);
+            } else {
+                return  false;
             }
 //        return (  (ModHelperFields.bhcreativeLoaded)
 //               && (BHCreative.get(player))
