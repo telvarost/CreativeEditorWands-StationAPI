@@ -1,6 +1,5 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
-import com.github.telvarost.creativeeditorwands.BHCreative;
 import com.github.telvarost.creativeeditorwands.ModHelper;
 import net.minecraft.block.BlockBase;
 import net.minecraft.entity.Living;
@@ -21,9 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Sword.class)
 public class SwordMixin extends ItemBase implements StationSwordItem, CustomTooltipProvider {
-    /**
-     * - Paint with wooden sword
-     */
+    /** - Paint with wooden sword */
     public SwordMixin(int i, ToolMaterial arg) {
         super(i);
     }
@@ -63,11 +60,10 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
             int paintId;
             int paintMeta;
 
-            if (  (null != player)
-               && (ModHelper.IsPlayerCreative(player))
+            if (  (ModHelper.IsPlayerCreative(player))
             ) {
                 if (  (null != player.level)
-                   && (false == player.level.isServerSide)
+                   && (!player.level.isServerSide)
                 ) {
                     paintId = item.getDamage();
                     paintMeta = (item.count - 1);

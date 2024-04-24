@@ -10,15 +10,19 @@ public class Config {
 
     public static class ConfigFields {
 
-        @ConfigName("Enable Toggling Editing Tools With Bedrock")
-        @MultiplayerSynced
-        @ValueOnVanillaServer(booleanValue = TriBoolean.FALSE)
-        public Boolean enableTogglingEditingToolsWithBedrock = true;
+        @ConfigName("Activate Editing Tool Tooltips On Server")
+        @Comment("Tools cannot be used if player is not OP")
+        public Boolean activateEditingToolTooltipsOnServer = false;
 
         @ConfigName("Disable All Editing Tools")
+        @Comment("Use this to disable tools in MP or SP")
         @MultiplayerSynced
         @ValueOnVanillaServer(booleanValue = TriBoolean.FALSE)
         public Boolean disableAllEditingTools = false;
+
+        @ConfigName("Enable Toggling Editing Tools With Bedrock")
+        @Comment("Single-player only")
+        public Boolean enableTogglingEditingToolsWithBedrock = true;
 
 //        @ConfigName("Use Vanilla Item Editing Tools")
 //        @MultiplayerSynced

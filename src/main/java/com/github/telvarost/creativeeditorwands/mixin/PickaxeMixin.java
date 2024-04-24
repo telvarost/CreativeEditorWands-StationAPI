@@ -1,6 +1,5 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
-import com.github.telvarost.creativeeditorwands.BHCreative;
 import com.github.telvarost.creativeeditorwands.ModHelper;
 import net.minecraft.block.BlockBase;
 import net.minecraft.entity.player.PlayerBase;
@@ -30,8 +29,7 @@ public class PickaxeMixin extends ToolBase implements CustomTooltipProvider {
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
             PlayerBase player = PlayerHelper.getPlayerFromGame();
-            if (  (null != player)
-               && (ModHelper.IsPlayerCreative(player))
+            if (  (ModHelper.IsPlayerCreative(player))
             ) {
                 int paintId = itemInstance.getDamage();
                 int paintMeta = (itemInstance.count - 1);

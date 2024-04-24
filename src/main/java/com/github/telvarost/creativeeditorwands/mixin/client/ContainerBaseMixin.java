@@ -1,7 +1,8 @@
-package com.github.telvarost.creativeeditorwands.mixin;
+package com.github.telvarost.creativeeditorwands.mixin.client;
 
-import com.github.telvarost.creativeeditorwands.BHCreative;
 import com.github.telvarost.creativeeditorwands.ModHelper;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ScreenBase;
 import net.minecraft.client.gui.screen.container.ContainerBase;
 import net.minecraft.entity.player.PlayerBase;
@@ -18,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Environment(EnvType.CLIENT)
 @Mixin(ContainerBase.class)
 public abstract class ContainerBaseMixin extends ScreenBase {
     @Shadow
@@ -33,8 +35,7 @@ public abstract class ContainerBaseMixin extends ScreenBase {
         if (button == 0) {
             if (ModHelper.ModHelperFields.enableWorldEditTools) {
                 PlayerBase player = PlayerHelper.getPlayerFromGame();
-                if (  (null != player)
-                   && (ModHelper.IsPlayerCreative(player))
+                if (  (ModHelper.IsPlayerCreative(player))
                 ) {
                     if (!minecraft.level.isServerSide) {
                         slot = this.getSlot(mouseX, mouseY);
@@ -68,7 +69,7 @@ public abstract class ContainerBaseMixin extends ScreenBase {
         }
     }
 
-    @Inject(method = "mouseReleased", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "mouseReleased", at = @At("RETURN"))
     private void creativeEditorWands_mouseReleasedOrSlotChanged(int mouseX, int mouseY, int button, CallbackInfo ci) {
 
         if (ModHelper.ModHelperFields.enableWorldEditTools) {

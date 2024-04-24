@@ -1,6 +1,5 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
-import com.github.telvarost.creativeeditorwands.BHCreative;
 import com.github.telvarost.creativeeditorwands.ModHelper;
 import net.minecraft.block.BlockBase;
 import net.minecraft.entity.player.PlayerBase;
@@ -17,7 +16,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(Hatchet.class)
 public class AxeMixin extends ToolBase implements CustomTooltipProvider {
-    /** - Copy/paste with wooden axe */
+    /** - Selection with wooden axe */
     @Shadow
     private static BlockBase[] effectiveBlocks;
     public AxeMixin(int i, ToolMaterial arg) {
@@ -44,8 +43,7 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
             PlayerBase player = PlayerHelper.getPlayerFromGame();
-            if (  (null != player)
-               && (ModHelper.IsPlayerCreative(player))
+            if (  (ModHelper.IsPlayerCreative(player))
             ) {
                 String selection1 = "null";
                 String selection2 = "null";

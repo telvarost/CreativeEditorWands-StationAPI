@@ -7,6 +7,7 @@
     "AxeMixin",
     "BlockMixin",
     "HoeMixin",
+    "LevelMixin",
     "PickaxeMixin",
     "ShovelMixin",
     "SwordMixin",
@@ -15,7 +16,7 @@
   "server": [
   ],
   "client": [
-    "ContainerBaseMixin"
+    "client.ContainerBaseMixin"
   ],
   "injectors": {
     "defaultRequire": 1

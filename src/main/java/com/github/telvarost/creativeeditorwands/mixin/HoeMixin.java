@@ -1,8 +1,6 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
-import com.github.telvarost.creativeeditorwands.BHCreative;
 import com.github.telvarost.creativeeditorwands.ModHelper;
-import net.minecraft.block.BlockBase;
 import net.minecraft.entity.player.PlayerBase;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
@@ -46,8 +44,7 @@ public class HoeMixin extends ItemBase implements StationHoeItem, CustomTooltipP
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
             PlayerBase player = PlayerHelper.getPlayerFromGame();
-            if (  (null != player)
-               && (ModHelper.IsPlayerCreative(player))
+            if (  (ModHelper.IsPlayerCreative(player))
             ) {
                 String brushType = "Point";
 

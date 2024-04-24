@@ -26,8 +26,9 @@ public class BlockMixin extends ItemBase implements StationFlatteningBlockItem, 
     public String[] getTooltip(ItemInstance itemInstance, String originalTooltip) {
         if (this.blockId == BlockBase.BEDROCK.id) {
             PlayerBase player = PlayerHelper.getPlayerFromGame();
-            if (  (null != player)
-               && (ModHelper.IsPlayerCreative(player))
+            if (  (ModHelper.IsPlayerCreative(player))
+               && (null != player.level)
+               && (!player.level.isServerSide)
             ) {
                 return new String[]{"§b" + "Creative Wands", "Enabled: " + ModHelper.ModHelperFields.enableWorldEditTools};
             } else {
@@ -42,6 +43,8 @@ public class BlockMixin extends ItemBase implements StationFlatteningBlockItem, 
     public ItemInstance use(ItemInstance item, Level arg2, PlayerBase player) {
         if (  (this.blockId == BlockBase.BEDROCK.id)
            && (ModHelper.IsPlayerCreative(player))
+           && (null != player.level)
+           && (!player.level.isServerSide)
         ) {
             ModHelper.SetEnableWorldEditTools(!ModHelper.ModHelperFields.enableWorldEditTools);
         }
