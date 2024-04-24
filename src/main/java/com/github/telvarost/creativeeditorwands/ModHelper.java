@@ -23,10 +23,7 @@ public class ModHelper {
 
     public static boolean IsPlayerCreative(PlayerBase player) {
         if (null != player) {
-            if (  (null != PlayerHelper.getPlayerFromGame())
-               && (null != player.level)
-               && (false == player.level.isServerSide)
-            ) {
+            if (null != PlayerHelper.getPlayerFromGame()) {
                 return true;
             } else {
                 return ModHelper.getConnectionManager().isOp(player.name);

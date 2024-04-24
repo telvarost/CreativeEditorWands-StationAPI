@@ -52,8 +52,14 @@ public class PickaxeMixin extends ToolBase implements CustomTooltipProvider {
            && (ModHelper.ModHelperFields.enableWorldEditTools)
            && (ModHelper.IsPlayerCreative(player))
         ) {
-            item.setDamage(0);
-            item.count = 1;
+            int blockId = 0;
+            int blockMeta = 0;
+
+            item.setDamage(blockId);
+            item.count = (blockMeta + 1);
+
+            ModHelper.ModHelperFields.serverBlockId = blockId;
+            ModHelper.ModHelperFields.serverBlockMeta = blockMeta;
         }
         return item;
     }
