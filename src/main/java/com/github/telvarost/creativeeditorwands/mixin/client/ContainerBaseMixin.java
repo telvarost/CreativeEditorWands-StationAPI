@@ -104,36 +104,59 @@ public abstract class ContainerBaseMixin extends ScreenBase {
                 || (slotItemToExamine.itemId == ItemBase.woodShovel.id)
                 || (slotItemToExamine.itemId == ItemBase.woodSword.id)
                 || (slotItemToExamine.itemId == ItemBase.woodHoe.id)
+                || (slotItemToExamine.itemId == ItemBase.woodAxe.id)
                 )
            )
         {
             float numberOfTurns = (float)wheelDegrees / 120.0f;
             if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-                int curCount = slotItemToExamine.count;
-                slotItemToExamine.applyDamage((int) numberOfTurns, null);
-                slotItemToExamine.count = curCount;
-                if (0 > slotItemToExamine.getDamage()) {
-                    if (slotItemToExamine.itemId != ItemBase.woodHoe.id) {
-                        slotItemToExamine.setDamage(ModHelper.BLOCK_ID_DURABILITY);
-                    } else {
-                        slotItemToExamine.setDamage(ModHelper.BRUSH_SIZE_DURABILITY);
+                int damageValue = slotItemToExamine.getDamage();
+                if (slotItemToExamine.itemId == ItemBase.woodAxe.id) {
+                    if (0 < damageValue && (ModHelper.SELECTION_TOOL_DURABILITY - 2) >= damageValue) {
+                        int curCount = slotItemToExamine.count;
+                        slotItemToExamine.applyDamage((int) numberOfTurns, null);
+                        slotItemToExamine.count = curCount;
+                        if ((ModHelper.SELECTION_TOOL_DURABILITY - 2) < slotItemToExamine.getDamage()) {
+                            slotItemToExamine.setDamage(1);
+                        }
+                        if (1 > slotItemToExamine.getDamage()) {
+                            slotItemToExamine.setDamage((ModHelper.SELECTION_TOOL_DURABILITY - 2));
+                        }
+                    }
+                } else {
+                    int curCount = slotItemToExamine.count;
+                    slotItemToExamine.applyDamage((int) numberOfTurns, null);
+                    slotItemToExamine.count = curCount;
+                    if (0 > damageValue) {
+                        if (slotItemToExamine.itemId != ItemBase.woodHoe.id) {
+                            slotItemToExamine.setDamage(ModHelper.BLOCK_ID_DURABILITY);
+                        } else {
+                            slotItemToExamine.setDamage(ModHelper.BRUSH_SIZE_DURABILITY);
+                        }
                     }
                 }
             } else {
                 slotItemToExamine.count += numberOfTurns;
-                if (slotItemToExamine.itemId != ItemBase.woodHoe.id) {
-                    if (16 < slotItemToExamine.count) {
-                        slotItemToExamine.count = 1;
-                    }
-                    if (1 > slotItemToExamine.count) {
-                        slotItemToExamine.count = 16;
-                    }
-                } else {
+                if (slotItemToExamine.itemId == ItemBase.woodAxe.id) {
                     if (3 < slotItemToExamine.count) {
                         slotItemToExamine.count = 1;
                     }
                     if (1 > slotItemToExamine.count) {
                         slotItemToExamine.count = 3;
+                    }
+                } else if (slotItemToExamine.itemId == ItemBase.woodHoe.id) {
+                    if (3 < slotItemToExamine.count) {
+                        slotItemToExamine.count = 1;
+                    }
+                    if (1 > slotItemToExamine.count) {
+                        slotItemToExamine.count = 3;
+                    }
+                } else {
+                    if (16 < slotItemToExamine.count) {
+                        slotItemToExamine.count = 1;
+                    }
+                    if (1 > slotItemToExamine.count) {
+                        slotItemToExamine.count = 16;
                     }
                 }
             }

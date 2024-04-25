@@ -8,9 +8,13 @@ A StationAPI mod for Minecraft Beta 1.7.3 that adds world edit type properties t
 All changes only apply when player is OP or in single-player toggle wands on/off via bedrock.
 
 * Selection Tool (wooden axe)
-  * Mode 1: Select two points (`right-click`)
+  * Mode 1: Select two points (`right-click` on two blocks)
   * Mode 2: Copy selection (area between the two points) over to the new area `right-click`
   * Mode 3: Fill selection (area between the two points) with whatever block is `right-clicked`
+  * Use `scroll-wheel` in inventory to rotate selection (does nothing if no selection has been made)
+    * Hit living entities to rotate selection in multiplayer (also works in single-player)
+  * Hold `left-shift` and use `scroll-wheel` to change axe mode in single-player
+  * Use `right-click` in the air to change axe mode in multiplayer
 * Paint Brush (wooden sword)
   * Draw with `right-click`
     * Block ID zero means copy `right-clicked` block and use it to draw
@@ -27,7 +31,7 @@ All changes only apply when player is OP or in single-player toggle wands on/off
     * In multiplayer the selected block will be used for all brushes
   * Use `scroll-wheel` in inventory to select block type
   * Hold `left-shift` and use `scroll-wheel` to select block metadata
-* Brush Mode (wooden hoe)
+* Brushes Mode (wooden hoe)
   * Use `scroll-wheel` in inventory to change brush size
     * Hit living entities to change brush size in multiplayer (also works in single-player)
   * Use `right-click` on a block to change brush type and apply brush mode

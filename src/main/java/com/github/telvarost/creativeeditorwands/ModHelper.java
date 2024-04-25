@@ -9,7 +9,7 @@ import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 
 public class ModHelper {
     public static final int WOODEN_TOOL_DURABILITY = 59;
-    public static final int SELECTION_TOOL_DURABILITY = 64;
+    public static final int SELECTION_TOOL_DURABILITY = 10;
     public static int BRUSH_SIZE_DURABILITY = 25;
     public static final int BLOCK_ID_DURABILITY = 96;
 

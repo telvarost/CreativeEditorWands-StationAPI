@@ -59,7 +59,7 @@ public class HoeMixin extends ItemBase implements StationHoeItem, CustomTooltipP
                         break;
                 }
 
-                return new String[]{"§b" + "Brush Mode", "Size: " + itemInstance.getDamage(), "Type: " + brushType};
+                return new String[]{"§b" + "Brushes Mode", "Size: " + itemInstance.getDamage(), "Type: " + brushType};
             } else {
                 return new String[]{originalTooltip};
             }
