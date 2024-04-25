@@ -33,15 +33,15 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
            && (ModHelper.IsPlayerCreative((PlayerBase) arg3))
         ) {
             int damageValue = item.getDamage();
-            if (0 < damageValue && 8 > damageValue) {
+            if (0 < damageValue && (ModHelper.SELECTION_TOOL_DURABILITY - 2) >= damageValue) {
                 int curCount = item.count;
                 item.applyDamage(1, null);
                 item.count = curCount;
-                if (7 < item.getDamage()) {
+                if ((ModHelper.SELECTION_TOOL_DURABILITY - 2) < item.getDamage()) {
                     item.setDamage(1);
                 }
                 if (1 > item.getDamage()) {
-                    item.setDamage(7);
+                    item.setDamage((ModHelper.SELECTION_TOOL_DURABILITY - 2));
                 }
             }
             ModHelper.ModHelperFields.brushSize = item.getDamage();
