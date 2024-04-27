@@ -110,8 +110,8 @@ public abstract class ContainerBaseMixin extends ScreenBase {
         {
             float numberOfTurns = (float)wheelDegrees / 120.0f;
             if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-                int damageValue = slotItemToExamine.getDamage();
                 if (slotItemToExamine.itemId == ItemBase.woodAxe.id) {
+                    int damageValue = slotItemToExamine.getDamage();
                     if (0 < damageValue && (ModHelper.SELECTION_TOOL_DURABILITY - 2) >= damageValue) {
                         int curCount = slotItemToExamine.count;
                         slotItemToExamine.applyDamage((int) numberOfTurns, null);
@@ -127,7 +127,7 @@ public abstract class ContainerBaseMixin extends ScreenBase {
                     int curCount = slotItemToExamine.count;
                     slotItemToExamine.applyDamage((int) numberOfTurns, null);
                     slotItemToExamine.count = curCount;
-                    if (0 > damageValue) {
+                    if (0 > slotItemToExamine.getDamage()) {
                         if (slotItemToExamine.itemId != ItemBase.woodHoe.id) {
                             slotItemToExamine.setDamage(ModHelper.BLOCK_ID_DURABILITY);
                         } else {

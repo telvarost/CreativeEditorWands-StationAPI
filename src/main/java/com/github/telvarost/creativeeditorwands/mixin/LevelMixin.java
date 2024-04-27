@@ -43,6 +43,8 @@ public class LevelMixin {
                 } else {
                     ModHelper.ModHelperFields.enableWorldEditTools = false;
                 }
+            } else {
+                ModHelper.ModHelperFields.enableWorldEditTools = false;
             }
         }
     }

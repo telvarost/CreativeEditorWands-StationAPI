@@ -2,7 +2,9 @@ package com.github.telvarost.creativeeditorwands.mixin;
 
 import com.github.telvarost.creativeeditorwands.ModHelper;
 import net.minecraft.block.BlockBase;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerBase;
+import net.minecraft.item.Dye;
 import net.minecraft.item.ItemBase;
 import net.minecraft.item.ItemInstance;
 import net.minecraft.item.tool.Pickaxe;
@@ -24,17 +26,37 @@ public class PickaxeMixin extends ToolBase implements CustomTooltipProvider {
     }
 
     @Override
-    public String[] getTooltip(ItemInstance itemInstance, String originalTooltip) {
+    public String[] getTooltip(ItemInstance item, String originalTooltip) {
         if (  (this.id == ItemBase.woodPickaxe.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
             PlayerBase player = PlayerHelper.getPlayerFromGame();
             if (  (ModHelper.IsPlayerCreative(player))
             ) {
-                int paintId = itemInstance.getDamage();
-                int paintMeta = (itemInstance.count - 1);
+                int paintId = item.getDamage();
+                int paintMeta = (item.count - 1);
+
+                String blockName;
+
+                if (1 <= paintId && 255 >= paintId) {
+                    blockName = BlockBase.BY_ID[paintId].getTranslatedName();
+                    if (35 == paintId) {
+                        int itemMeta = (1 > item.count || 16 < item.count) ? 0 : (item.count - 1);
+                        String translationKey = BlockBase.WOOL.getTranslationKey() + "." + Dye.NAMES[net.minecraft.block.Wool.getColour(itemMeta)];
+                        blockName = I18n.translate(translationKey + ".name");
+                    } else if (44 == paintId) {
+                        int itemMeta = (1 > item.count || 4 < item.count) ? 0 : (item.count - 1);
+                        String translationKey = BlockBase.STONE_SLAB.getTranslationKey() + "." + net.minecraft.block.StoneSlab.field_2323[itemMeta];
+                        blockName = I18n.translate(translationKey + ".name");
+                    }
+                } else if (0 == paintId) {
+                    blockName = "Any";
+                } else {
+                    blockName = "Unknown";
+                }
+
                 return new String[]{ "§b" + "Block Picker"
-                                   , "Block: " + paintId + " (" + BlockBase.BY_ID[paintId].getTranslatedName() + ")"
+                                   , "Block: " + paintId + " (" + blockName + ")"
                                    , "Metadata: " + paintMeta };
             } else {
                 return new String[]{originalTooltip};
