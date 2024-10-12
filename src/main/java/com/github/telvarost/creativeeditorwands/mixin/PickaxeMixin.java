@@ -1,36 +1,36 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
 import com.github.telvarost.creativeeditorwands.ModHelper;
-import net.minecraft.block.BlockBase;
+import net.minecraft.block.Block;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.entity.player.PlayerBase;
-import net.minecraft.item.Dye;
-import net.minecraft.item.ItemBase;
-import net.minecraft.item.ItemInstance;
-import net.minecraft.item.tool.Pickaxe;
-import net.minecraft.item.tool.ToolBase;
-import net.minecraft.item.tool.ToolMaterial;
-import net.minecraft.level.Level;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.DyeItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.PickaxeItem;
+import net.minecraft.item.ToolItem;
+import net.minecraft.item.ToolMaterial;
+import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(Pickaxe.class)
-public class PickaxeMixin extends ToolBase implements CustomTooltipProvider {
+@Mixin(PickaxeItem.class)
+public class PickaxeMixin extends ToolItem implements CustomTooltipProvider {
     /** - Change paint/erase color with wooden pickaxe */
     @Shadow
-    private static BlockBase[] effectiveBlocks;
+    private static Block[] pickaxeEffectiveBlocks;
     public PickaxeMixin(int i, ToolMaterial arg) {
-        super(i, 1, arg, effectiveBlocks);
+        super(i, 1, arg, pickaxeEffectiveBlocks);
     }
 
     @Override
-    public String[] getTooltip(ItemInstance item, String originalTooltip) {
-        if (  (this.id == ItemBase.woodPickaxe.id)
+    public String[] getTooltip(ItemStack item, String originalTooltip) {
+        if (  (this.id == Item.WOODEN_PICKAXE.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            PlayerBase player = PlayerHelper.getPlayerFromGame();
+            PlayerEntity player = PlayerHelper.getPlayerFromGame();
             if (  (ModHelper.IsPlayerCreative(player))
             ) {
                 int paintId = item.getDamage();
@@ -39,15 +39,15 @@ public class PickaxeMixin extends ToolBase implements CustomTooltipProvider {
                 String blockName;
 
                 if (1 <= paintId && 255 >= paintId) {
-                    blockName = BlockBase.BY_ID[paintId].getTranslatedName();
+                    blockName = Block.BLOCKS[paintId].getTranslatedName();
                     if (35 == paintId) {
                         int itemMeta = (1 > item.count || 16 < item.count) ? 0 : (item.count - 1);
-                        String translationKey = BlockBase.WOOL.getTranslationKey() + "." + Dye.NAMES[net.minecraft.block.Wool.getColour(itemMeta)];
-                        blockName = I18n.translate(translationKey + ".name");
+                        String translationKey = Block.WOOL.getTranslationKey() + "." + DyeItem.names[net.minecraft.block.WoolBlock.getBlockMeta(itemMeta)];
+                        blockName = I18n.getTranslation(translationKey + ".name");
                     } else if (44 == paintId) {
                         int itemMeta = (1 > item.count || 4 < item.count) ? 0 : (item.count - 1);
-                        String translationKey = BlockBase.STONE_SLAB.getTranslationKey() + "." + net.minecraft.block.StoneSlab.field_2323[itemMeta];
-                        blockName = I18n.translate(translationKey + ".name");
+                        String translationKey = Block.SLAB.getTranslationKey() + "." + net.minecraft.block.SlabBlock.names[itemMeta];
+                        blockName = I18n.getTranslation(translationKey + ".name");
                     }
                 } else if (0 == paintId) {
                     blockName = "Any";
@@ -67,8 +67,8 @@ public class PickaxeMixin extends ToolBase implements CustomTooltipProvider {
     }
 
     @Override
-    public ItemInstance use(ItemInstance item, Level arg2, PlayerBase player) {
-        if (  (this.id == ItemBase.woodPickaxe.id)
+    public ItemStack use(ItemStack item, World arg2, PlayerEntity player) {
+        if (  (this.id == Item.WOODEN_PICKAXE.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
            && (ModHelper.IsPlayerCreative(player))
         ) {
@@ -85,13 +85,13 @@ public class PickaxeMixin extends ToolBase implements CustomTooltipProvider {
     }
 
     @Override
-    public boolean useOnTile(ItemInstance item, PlayerBase player, Level level, int i, int j, int k, int meta) {
-        if (  (this.id == ItemBase.woodPickaxe.id)
+    public boolean useOnBlock(ItemStack item, PlayerEntity player, World level, int i, int j, int k, int meta) {
+        if (  (this.id == Item.WOODEN_PICKAXE.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
            && (ModHelper.IsPlayerCreative(player))
         ) {
-            int blockId = level.getTileId(i, j, k);
-            int blockMeta = level.getTileMeta(i, j, k);
+            int blockId = level.getBlockId(i, j, k);
+            int blockMeta = level.getBlockMeta(i, j, k);
 
             item.setDamage(blockId);
             item.count = (blockMeta + 1);

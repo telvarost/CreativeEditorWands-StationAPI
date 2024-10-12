@@ -1,41 +1,41 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
 import com.github.telvarost.creativeeditorwands.ModHelper;
-import net.minecraft.block.BlockBase;
-import net.minecraft.entity.Living;
-import net.minecraft.entity.player.PlayerBase;
-import net.minecraft.item.ItemBase;
-import net.minecraft.item.ItemInstance;
-import net.minecraft.item.tool.Hatchet;
-import net.minecraft.item.tool.ToolBase;
-import net.minecraft.item.tool.ToolMaterial;
-import net.minecraft.level.Level;
+import net.minecraft.block.Block;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.AxeItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
+import net.minecraft.item.ToolMaterial;
+import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(Hatchet.class)
-public class AxeMixin extends ToolBase implements CustomTooltipProvider {
+@Mixin(AxeItem.class)
+public class AxeMixin extends ToolItem implements CustomTooltipProvider {
     /** - Selection with wooden axe */
     @Shadow
-    private static BlockBase[] effectiveBlocks;
+    private static Block[] axeEffectiveBlocks;
     public AxeMixin(int i, ToolMaterial arg) {
-        super(i, 1, arg, effectiveBlocks);
+        super(i, 1, arg, axeEffectiveBlocks);
     }
 
     @Override
-    public boolean postHit(ItemInstance item, Living arg2, Living arg3) {
-        if (  (this.id == ItemBase.woodAxe.id)
+    public boolean postHit(ItemStack item, LivingEntity arg2, LivingEntity arg3) {
+        if (  (this.id == Item.WOODEN_AXE.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
-           && (arg3 instanceof  PlayerBase)
-           && (ModHelper.IsPlayerCreative((PlayerBase) arg3))
+           && (arg3 instanceof  PlayerEntity)
+           && (ModHelper.IsPlayerCreative((PlayerEntity) arg3))
         ) {
             int damageValue = item.getDamage();
             if (0 < damageValue && (ModHelper.SELECTION_TOOL_DURABILITY - 2) >= damageValue) {
                 int curCount = item.count;
-                item.applyDamage(1, null);
+                item.damage(1, null);
                 item.count = curCount;
                 if ((ModHelper.SELECTION_TOOL_DURABILITY - 2) < item.getDamage()) {
                     item.setDamage(1);
@@ -51,8 +51,8 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
     }
 
     @Override
-    public ItemInstance use(ItemInstance item, Level arg2, PlayerBase player) {
-        if (  (this.id == ItemBase.woodAxe.id)
+    public ItemStack use(ItemStack item, World arg2, PlayerEntity player) {
+        if (  (this.id == Item.WOODEN_AXE.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
            && (ModHelper.IsPlayerCreative(player))
         ) {
@@ -65,11 +65,11 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
     }
 
     @Override
-    public String[] getTooltip(ItemInstance itemInstance, String originalTooltip) {
-        if (  (this.id == ItemBase.woodAxe.id)
+    public String[] getTooltip(ItemStack itemInstance, String originalTooltip) {
+        if (  (this.id == Item.WOODEN_AXE.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            PlayerBase player = PlayerHelper.getPlayerFromGame();
+            PlayerEntity player = PlayerHelper.getPlayerFromGame();
             if (  (ModHelper.IsPlayerCreative(player))
             ) {
                 String selection1 = "null";
@@ -199,13 +199,13 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
     }
 
     @Override
-    public boolean useOnTile(ItemInstance item, PlayerBase player, Level level, int i, int j, int k, int meta) {
-        if (  (this.id == ItemBase.woodAxe.id)
+    public boolean useOnBlock(ItemStack item, PlayerEntity player, World level, int i, int j, int k, int meta) {
+        if (  (this.id == Item.WOODEN_AXE.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
            && (ModHelper.IsPlayerCreative(player))
         ) {
-            int blockId = level.getTileId(i, j, k);
-            int blockMeta = level.getTileMeta(i, j, k);
+            int blockId = level.getBlockId(i, j, k);
+            int blockMeta = level.getBlockMeta(i, j, k);
 
             if (3 == item.count) {
                 /** - Fill selection */
@@ -265,11 +265,11 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
                         for(int var7 = ModHelper.ModHelperFields.copyPoint1_Y; (stateIteration_Y || var7 != (ModHelper.ModHelperFields.copyPoint2_Y + add_y)); var7 += add_y) {
                             for(int var8 = ModHelper.ModHelperFields.copyPoint1_Z; (stateIteration_Z || var8 != (ModHelper.ModHelperFields.copyPoint2_Z + add_z)); var8 += add_z) {
 
-                                level.setTile(ModHelper.ModHelperFields.copyPoint1_X + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
+                                level.setBlock(ModHelper.ModHelperFields.copyPoint1_X + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
                                             , ModHelper.ModHelperFields.copyPoint1_Y + rotationMatrix(offset_x, offset_y, offset_z, 1, damageValue)
                                             , ModHelper.ModHelperFields.copyPoint1_Z + rotationMatrix(offset_x, offset_y, offset_z, 2, damageValue)
                                             , blockId);
-                                level.setTileMeta(ModHelper.ModHelperFields.copyPoint1_X + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
+                                level.setBlockMeta(ModHelper.ModHelperFields.copyPoint1_X + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
                                                 , ModHelper.ModHelperFields.copyPoint1_Y + rotationMatrix(offset_x, offset_y, offset_z, 1, damageValue)
                                                 , ModHelper.ModHelperFields.copyPoint1_Z + rotationMatrix(offset_x, offset_y, offset_z, 2, damageValue)
                                                 , blockMeta);
@@ -348,13 +348,13 @@ public class AxeMixin extends ToolBase implements CustomTooltipProvider {
                         for(int var7 = ModHelper.ModHelperFields.copyPoint1_Y; (stateIteration_Y || var7 != (ModHelper.ModHelperFields.copyPoint2_Y + add_y)); var7 += add_y) {
                             for(int var8 = ModHelper.ModHelperFields.copyPoint1_Z; (stateIteration_Z || var8 != (ModHelper.ModHelperFields.copyPoint2_Z + add_z)); var8 += add_z) {
 
-                                int copyBlockId = level.getTileId(var6, var7, var8);
-                                int copyBlockMeta = level.getTileMeta(var6, var7, var8);
-                                level.setTile   ( i + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
+                                int copyBlockId = level.getBlockId(var6, var7, var8);
+                                int copyBlockMeta = level.getBlockMeta(var6, var7, var8);
+                                level.setBlock   ( i + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
                                                 , j + rotationMatrix(offset_x, offset_y, offset_z, 1, damageValue)
                                                 , k + rotationMatrix(offset_x, offset_y, offset_z, 2, damageValue)
                                                 , copyBlockId);
-                                level.setTileMeta   ( i + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
+                                level.setBlockMeta   ( i + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
                                                     , j + rotationMatrix(offset_x, offset_y, offset_z, 1, damageValue)
                                                     , k + rotationMatrix(offset_x, offset_y, offset_z, 2, damageValue)
                                                     , copyBlockMeta);

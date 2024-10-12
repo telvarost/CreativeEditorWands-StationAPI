@@ -2,9 +2,9 @@ package com.github.telvarost.creativeeditorwands.mixin;
 
 import com.github.telvarost.creativeeditorwands.Config;
 import com.github.telvarost.creativeeditorwands.ModHelper;
-import net.minecraft.entity.EntityBase;
-import net.minecraft.entity.player.PlayerBase;
-import net.minecraft.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -12,24 +12,24 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(Level.class)
+@Mixin(World.class)
 public class LevelMixin {
 
-    @Shadow public boolean isServerSide;
+    @Shadow public boolean isRemote;
 
     @Inject(
             method = "spawnEntity",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/level/Level;method_219(Lnet/minecraft/entity/EntityBase;)V"
+                    target = "Lnet/minecraft/world/World;notifyEntityAdded(Lnet/minecraft/entity/Entity;)V"
             )
     )
-    public void spawnEntity(EntityBase arg, CallbackInfoReturnable<Boolean> cir) {
+    public void spawnEntity(Entity arg, CallbackInfoReturnable<Boolean> cir) {
         if (  (!Config.config.disableAllEditingTools)
-           && (arg instanceof PlayerBase)
+           && (arg instanceof PlayerEntity)
         ) {
             if (  (null == PlayerHelper.getPlayerFromGame())
-               && (!this.isServerSide)
+               && (!this.isRemote)
             ) {
                 try {
                     ModHelper.getConnectionManager();
@@ -37,7 +37,7 @@ public class LevelMixin {
                     ModHelper.AttemptToSetEditingToolProperties();
                 } catch (Exception ex) {
                 }
-            } else if (this.isServerSide) {
+            } else if (this.isRemote) {
                 if (Config.config.activateEditingToolTooltipsOnServer) {
                     ModHelper.ModHelperFields.enableWorldEditTools = true;
                 } else {

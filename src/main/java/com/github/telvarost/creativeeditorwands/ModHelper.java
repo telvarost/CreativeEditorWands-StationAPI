@@ -1,10 +1,10 @@
 package com.github.telvarost.creativeeditorwands;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.entity.player.PlayerBase;
-import net.minecraft.item.ItemBase;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.ServerPlayerConnectionManager;
+import net.minecraft.server.PlayerManager;
 import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 
 public class ModHelper {
@@ -17,18 +17,18 @@ public class ModHelper {
         return (MinecraftServer) FabricLoader.getInstance().getGameInstance();
     }
 
-    public static ServerPlayerConnectionManager getConnectionManager() {
-        return getServer().serverPlayerConnectionManager;
+    public static PlayerManager getConnectionManager() {
+        return getServer().playerManager;
     }
 
-    public static boolean IsPlayerCreative(PlayerBase player) {
+    public static boolean IsPlayerCreative(PlayerEntity player) {
         if (null != player) {
             if (null != PlayerHelper.getPlayerFromGame()) {
                 return true;
-            } else if (  (null != player.level)
-                      && (!player.level.isServerSide)
+            } else if (  (null != player.world)
+                      && (!player.world.isRemote)
             ) {
-                return ModHelper.getConnectionManager().isOp(player.name);
+                return ModHelper.getConnectionManager().isOperator(player.name);
             } else {
                 return  false;
             }
@@ -42,52 +42,52 @@ public class ModHelper {
 
     public static void AttemptToSetEditingToolProperties()
     {
-        if (ModHelper.ModHelperFields.blocksAndItemsRegistered) {
-            ModHelper.ModHelperFields.enableWorldEditTools = (  (ModHelper.ModHelperFields.enableWorldEditTools)
+        if (ModHelperFields.blocksAndItemsRegistered) {
+            ModHelperFields.enableWorldEditTools = (  (ModHelperFields.enableWorldEditTools)
                                                              && (false == Config.config.disableAllEditingTools)
                                                              );
 
-            if (ModHelper.ModHelperFields.enableWorldEditTools) {
+            if (ModHelperFields.enableWorldEditTools) {
 
-                if (SELECTION_TOOL_DURABILITY != ItemBase.woodAxe.getDurability()) {
-                    ItemBase.woodAxe.setDurability(SELECTION_TOOL_DURABILITY);
+                if (SELECTION_TOOL_DURABILITY != Item.WOODEN_AXE.getMaxDamage()) {
+                    Item.WOODEN_AXE.setMaxDamage(SELECTION_TOOL_DURABILITY);
                 }
 
-                if (BRUSH_SIZE_DURABILITY != ItemBase.woodHoe.getDurability()) {
-                    ItemBase.woodHoe.setDurability(BRUSH_SIZE_DURABILITY);
+                if (BRUSH_SIZE_DURABILITY != Item.WOODEN_HOE.getMaxDamage()) {
+                    Item.WOODEN_HOE.setMaxDamage(BRUSH_SIZE_DURABILITY);
                 }
 
-                if (BLOCK_ID_DURABILITY != ItemBase.woodPickaxe.getDurability()) {
-                    ItemBase.woodPickaxe.setDurability(BLOCK_ID_DURABILITY);
+                if (BLOCK_ID_DURABILITY != Item.WOODEN_PICKAXE.getMaxDamage()) {
+                    Item.WOODEN_PICKAXE.setMaxDamage(BLOCK_ID_DURABILITY);
                 }
 
-                if (BLOCK_ID_DURABILITY != ItemBase.woodShovel.getDurability()) {
-                    ItemBase.woodShovel.setDurability(BLOCK_ID_DURABILITY);
+                if (BLOCK_ID_DURABILITY != Item.WOODEN_SHOVEL.getMaxDamage()) {
+                    Item.WOODEN_SHOVEL.setMaxDamage(BLOCK_ID_DURABILITY);
                 }
 
-                if (BLOCK_ID_DURABILITY != ItemBase.woodSword.getDurability()) {
-                    ItemBase.woodSword.setDurability(BLOCK_ID_DURABILITY);
+                if (BLOCK_ID_DURABILITY != Item.WOODEN_SWORD.getMaxDamage()) {
+                    Item.WOODEN_SWORD.setMaxDamage(BLOCK_ID_DURABILITY);
                 }
             } else {
 
-                if (WOODEN_TOOL_DURABILITY != ItemBase.woodAxe.getDurability()) {
-                    ItemBase.woodAxe.setDurability(WOODEN_TOOL_DURABILITY);
+                if (WOODEN_TOOL_DURABILITY != Item.WOODEN_AXE.getMaxDamage()) {
+                    Item.WOODEN_AXE.setMaxDamage(WOODEN_TOOL_DURABILITY);
                 }
 
-                if (WOODEN_TOOL_DURABILITY != ItemBase.woodHoe.getDurability()) {
-                    ItemBase.woodHoe.setDurability(WOODEN_TOOL_DURABILITY);
+                if (WOODEN_TOOL_DURABILITY != Item.WOODEN_HOE.getMaxDamage()) {
+                    Item.WOODEN_HOE.setMaxDamage(WOODEN_TOOL_DURABILITY);
                 }
 
-                if (WOODEN_TOOL_DURABILITY != ItemBase.woodPickaxe.getDurability()) {
-                    ItemBase.woodPickaxe.setDurability(WOODEN_TOOL_DURABILITY);
+                if (WOODEN_TOOL_DURABILITY != Item.WOODEN_PICKAXE.getMaxDamage()) {
+                    Item.WOODEN_PICKAXE.setMaxDamage(WOODEN_TOOL_DURABILITY);
                 }
 
-                if (WOODEN_TOOL_DURABILITY != ItemBase.woodShovel.getDurability()) {
-                    ItemBase.woodShovel.setDurability(WOODEN_TOOL_DURABILITY);
+                if (WOODEN_TOOL_DURABILITY != Item.WOODEN_SHOVEL.getMaxDamage()) {
+                    Item.WOODEN_SHOVEL.setMaxDamage(WOODEN_TOOL_DURABILITY);
                 }
 
-                if (WOODEN_TOOL_DURABILITY != ItemBase.woodSword.getDurability()) {
-                    ItemBase.woodSword.setDurability(WOODEN_TOOL_DURABILITY);
+                if (WOODEN_TOOL_DURABILITY != Item.WOODEN_SWORD.getMaxDamage()) {
+                    Item.WOODEN_SWORD.setMaxDamage(WOODEN_TOOL_DURABILITY);
                 }
             }
         }

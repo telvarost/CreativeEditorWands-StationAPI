@@ -3,12 +3,12 @@ package com.github.telvarost.creativeeditorwands.mixin.client;
 import com.github.telvarost.creativeeditorwands.ModHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.screen.ScreenBase;
-import net.minecraft.client.gui.screen.container.ContainerBase;
-import net.minecraft.entity.player.PlayerBase;
-import net.minecraft.item.ItemBase;
-import net.minecraft.item.ItemInstance;
-import net.minecraft.container.slot.Slot;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.screen.slot.Slot;
 import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -20,10 +20,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Environment(EnvType.CLIENT)
-@Mixin(ContainerBase.class)
-public abstract class ContainerBaseMixin extends ScreenBase {
+@Mixin(HandledScreen.class)
+public abstract class ContainerBaseMixin extends Screen {
     @Shadow
-    protected abstract Slot getSlot(int x, int y);
+    protected abstract Slot getSlotAt(int x, int y);
 
     @Unique
     private Slot slot = null;
@@ -34,27 +34,27 @@ public abstract class ContainerBaseMixin extends ScreenBase {
         /** - Left-click */
         if (button == 0) {
             if (ModHelper.ModHelperFields.enableWorldEditTools) {
-                PlayerBase player = PlayerHelper.getPlayerFromGame();
+                PlayerEntity player = PlayerHelper.getPlayerFromGame();
                 if (  (ModHelper.IsPlayerCreative(player))
                 ) {
-                    if (!minecraft.level.isServerSide) {
-                        slot = this.getSlot(mouseX, mouseY);
+                    if (!minecraft.world.isRemote) {
+                        slot = this.getSlotAt(mouseX, mouseY);
 
                         /** - Do nothing if mouse is not over a slot */
                         if (slot == null)
                             return;
 
-                        ItemInstance cursorStack = minecraft.player.inventory.getCursorItem();
-                        ItemInstance slotItemToExamine = slot.getItem();
+                        ItemStack cursorStack = minecraft.player.inventory.getCursorStack();
+                        ItemStack slotItemToExamine = slot.getStack();
 
                         if (   (null != cursorStack)
                             && (null != slotItemToExamine)
-                            && (   (cursorStack.itemId == ItemBase.woodPickaxe.id)
-                                || (cursorStack.itemId == ItemBase.woodShovel.id)
-                                || (cursorStack.itemId == ItemBase.woodSword.id)
+                            && (   (cursorStack.itemId == Item.WOODEN_PICKAXE.id)
+                                || (cursorStack.itemId == Item.WOODEN_SHOVEL.id)
+                                || (cursorStack.itemId == Item.WOODEN_SWORD.id)
                                )
-                            && (   (slotItemToExamine.itemId == ItemBase.woodShovel.id)
-                                || (slotItemToExamine.itemId == ItemBase.woodSword.id)
+                            && (   (slotItemToExamine.itemId == Item.WOODEN_SHOVEL.id)
+                                || (slotItemToExamine.itemId == Item.WOODEN_SWORD.id)
                                )
                         ) {
                             slotItemToExamine.setDamage(cursorStack.getDamage());
@@ -73,8 +73,8 @@ public abstract class ContainerBaseMixin extends ScreenBase {
     private void creativeEditorWands_mouseReleasedOrSlotChanged(int mouseX, int mouseY, int button, CallbackInfo ci) {
 
         if (ModHelper.ModHelperFields.enableWorldEditTools) {
-            if (!minecraft.level.isServerSide) {
-                slot = this.getSlot(mouseX, mouseY);
+            if (!minecraft.world.isRemote) {
+                slot = this.getSlotAt(mouseX, mouseY);
 
                 /** - Do nothing if mouse is not over a slot */
                 if (slot == null)
@@ -82,7 +82,7 @@ public abstract class ContainerBaseMixin extends ScreenBase {
 
                 int currentWheelDegrees = Mouse.getDWheel();
                 if (0 != currentWheelDegrees) {
-                    PlayerBase player = PlayerHelper.getPlayerFromGame();
+                    PlayerEntity player = PlayerHelper.getPlayerFromGame();
                     if (  (null != player)
                        && (ModHelper.IsPlayerCreative(player))
                     ) {
@@ -95,26 +95,26 @@ public abstract class ContainerBaseMixin extends ScreenBase {
     }
 
     @Unique private void creativeEditorWands_handleScrollWheel(int wheelDegrees) {
-        ItemInstance cursorStack = minecraft.player.inventory.getCursorItem();
-        ItemInstance slotItemToExamine = slot.getItem();
+        ItemStack cursorStack = minecraft.player.inventory.getCursorStack();
+        ItemStack slotItemToExamine = slot.getStack();
 
         if (  (null == cursorStack)
            && (null != slotItemToExamine)
-           &&   (  (slotItemToExamine.itemId == ItemBase.woodPickaxe.id)
-                || (slotItemToExamine.itemId == ItemBase.woodShovel.id)
-                || (slotItemToExamine.itemId == ItemBase.woodSword.id)
-                || (slotItemToExamine.itemId == ItemBase.woodHoe.id)
-                || (slotItemToExamine.itemId == ItemBase.woodAxe.id)
+           &&   (  (slotItemToExamine.itemId == Item.WOODEN_PICKAXE.id)
+                || (slotItemToExamine.itemId == Item.WOODEN_SHOVEL.id)
+                || (slotItemToExamine.itemId == Item.WOODEN_SWORD.id)
+                || (slotItemToExamine.itemId == Item.WOODEN_HOE.id)
+                || (slotItemToExamine.itemId == Item.WOODEN_AXE.id)
                 )
            )
         {
             float numberOfTurns = (float)wheelDegrees / 120.0f;
             if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-                if (slotItemToExamine.itemId == ItemBase.woodAxe.id) {
+                if (slotItemToExamine.itemId == Item.WOODEN_AXE.id) {
                     int damageValue = slotItemToExamine.getDamage();
                     if (0 < damageValue && (ModHelper.SELECTION_TOOL_DURABILITY - 2) >= damageValue) {
                         int curCount = slotItemToExamine.count;
-                        slotItemToExamine.applyDamage((int) numberOfTurns, null);
+                        slotItemToExamine.damage((int) numberOfTurns, null);
                         slotItemToExamine.count = curCount;
                         if ((ModHelper.SELECTION_TOOL_DURABILITY - 2) < slotItemToExamine.getDamage()) {
                             slotItemToExamine.setDamage(1);
@@ -125,10 +125,10 @@ public abstract class ContainerBaseMixin extends ScreenBase {
                     }
                 } else {
                     int curCount = slotItemToExamine.count;
-                    slotItemToExamine.applyDamage((int) numberOfTurns, null);
+                    slotItemToExamine.damage((int) numberOfTurns, null);
                     slotItemToExamine.count = curCount;
                     if (0 > slotItemToExamine.getDamage()) {
-                        if (slotItemToExamine.itemId != ItemBase.woodHoe.id) {
+                        if (slotItemToExamine.itemId != Item.WOODEN_HOE.id) {
                             slotItemToExamine.setDamage(ModHelper.BLOCK_ID_DURABILITY);
                         } else {
                             slotItemToExamine.setDamage(ModHelper.BRUSH_SIZE_DURABILITY);
@@ -137,14 +137,14 @@ public abstract class ContainerBaseMixin extends ScreenBase {
                 }
             } else {
                 slotItemToExamine.count += numberOfTurns;
-                if (slotItemToExamine.itemId == ItemBase.woodAxe.id) {
+                if (slotItemToExamine.itemId == Item.WOODEN_AXE.id) {
                     if (3 < slotItemToExamine.count) {
                         slotItemToExamine.count = 1;
                     }
                     if (1 > slotItemToExamine.count) {
                         slotItemToExamine.count = 3;
                     }
-                } else if (slotItemToExamine.itemId == ItemBase.woodHoe.id) {
+                } else if (slotItemToExamine.itemId == Item.WOODEN_HOE.id) {
                     if (3 < slotItemToExamine.count) {
                         slotItemToExamine.count = 1;
                     }

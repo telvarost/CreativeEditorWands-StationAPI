@@ -2,35 +2,35 @@ package com.github.telvarost.creativeeditorwands.mixin;
 
 import com.github.telvarost.creativeeditorwands.BHCreative;
 import com.github.telvarost.creativeeditorwands.ModHelper;
-import net.minecraft.block.BlockBase;
-import net.minecraft.entity.Living;
-import net.minecraft.entity.player.PlayerBase;
-import net.minecraft.item.ItemBase;
-import net.minecraft.item.ItemInstance;
-import net.minecraft.item.tool.ToolBase;
-import net.minecraft.item.tool.ToolMaterial;
+import net.minecraft.block.Block;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
+import net.minecraft.item.ToolMaterial;
 import net.modificationstation.stationapi.api.item.tool.StationToolItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ToolBase.class)
-public class ToolBaseMixin extends ItemBase implements StationToolItem {
-    public ToolBaseMixin(int i, int j, ToolMaterial arg, BlockBase[] args) {
+@Mixin(ToolItem.class)
+public class ToolBaseMixin extends Item implements StationToolItem {
+    public ToolBaseMixin(int i, int j, ToolMaterial arg, Block[] args) {
         super(i);
     }
 
     @Inject(at = @At("HEAD"), method = "postHit", cancellable = true)
-    public void creativeEditorWands_postHit(ItemInstance arg, Living arg2, Living arg3, CallbackInfoReturnable<Boolean> cir) {
+    public void creativeEditorWands_postHit(ItemStack arg, LivingEntity arg2, LivingEntity arg3, CallbackInfoReturnable<Boolean> cir) {
         if (  (ModHelper.ModHelperFields.enableWorldEditTools)
-           && (  (this.id == ItemBase.woodShovel.id)
-              || (this.id == ItemBase.woodAxe.id)
-              || (this.id == ItemBase.woodPickaxe.id)
+           && (  (this.id == Item.WOODEN_SHOVEL.id)
+              || (this.id == Item.WOODEN_AXE.id)
+              || (this.id == Item.WOODEN_PICKAXE.id)
               )
-           && (arg3 instanceof  PlayerBase)
+           && (arg3 instanceof  PlayerEntity)
         ) {
-            PlayerBase player = (PlayerBase) arg2;
+            PlayerEntity player = (PlayerEntity) arg2;
             if (ModHelper.IsPlayerCreative(player)) {
                 cir.setReturnValue(true);
             }
@@ -38,15 +38,15 @@ public class ToolBaseMixin extends ItemBase implements StationToolItem {
     }
 
     @Inject(at = @At("HEAD"), method = "postMine", cancellable = true)
-    public void creativeEditorWands_postMine(ItemInstance arg, int i, int j, int k, int l, Living arg2, CallbackInfoReturnable<Boolean> cir) {
+    public void creativeEditorWands_postMine(ItemStack arg, int i, int j, int k, int l, LivingEntity arg2, CallbackInfoReturnable<Boolean> cir) {
         if (  (ModHelper.ModHelperFields.enableWorldEditTools)
-           && (  (this.id == ItemBase.woodShovel.id)
-              || (this.id == ItemBase.woodAxe.id)
-              || (this.id == ItemBase.woodPickaxe.id)
+           && (  (this.id == Item.WOODEN_SHOVEL.id)
+              || (this.id == Item.WOODEN_AXE.id)
+              || (this.id == Item.WOODEN_PICKAXE.id)
               )
-           && (arg2 instanceof PlayerBase)
+           && (arg2 instanceof PlayerEntity)
         ) {
-            PlayerBase player = (PlayerBase) arg2;
+            PlayerEntity player = (PlayerEntity) arg2;
             if (ModHelper.IsPlayerCreative(player)) {
                 cir.setReturnValue(true);
             }

@@ -1,16 +1,16 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
 import com.github.telvarost.creativeeditorwands.ModHelper;
-import net.minecraft.block.BlockBase;
+import net.minecraft.block.Block;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.entity.Living;
-import net.minecraft.entity.player.PlayerBase;
-import net.minecraft.item.Dye;
-import net.minecraft.item.ItemBase;
-import net.minecraft.item.ItemInstance;
-import net.minecraft.item.tool.Sword;
-import net.minecraft.item.tool.ToolMaterial;
-import net.minecraft.level.Level;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.DyeItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.SwordItem;
+import net.minecraft.item.ToolMaterial;
+import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import net.modificationstation.stationapi.api.item.tool.StationSwordItem;
@@ -20,20 +20,20 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(Sword.class)
-public class SwordMixin extends ItemBase implements StationSwordItem, CustomTooltipProvider {
+@Mixin(SwordItem.class)
+public class SwordMixin extends Item implements StationSwordItem, CustomTooltipProvider {
     /** - Paint with wooden sword */
     public SwordMixin(int i, ToolMaterial arg) {
         super(i);
     }
 
     @Inject(at = @At("HEAD"), method = "postHit", cancellable = true)
-    public void creativeEditorWands_postHit(ItemInstance arg, Living arg2, Living arg3, CallbackInfoReturnable<Boolean> cir) {
-        if (  (this.id == ItemBase.woodSword.id)
+    public void creativeEditorWands_postHit(ItemStack arg, LivingEntity arg2, LivingEntity arg3, CallbackInfoReturnable<Boolean> cir) {
+        if (  (this.id == Item.WOODEN_SWORD.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
-           && (arg3 instanceof  PlayerBase)
+           && (arg3 instanceof  PlayerEntity)
         ) {
-            PlayerBase player = (PlayerBase) arg3;
+            PlayerEntity player = (PlayerEntity) arg3;
             if (ModHelper.IsPlayerCreative(player)) {
                 cir.setReturnValue(true);
             }
@@ -41,12 +41,12 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
     }
 
     @Inject(at = @At("HEAD"), method = "postMine", cancellable = true)
-    public void creativeEditorWands_postMine(ItemInstance arg, int i, int j, int k, int l, Living arg2, CallbackInfoReturnable<Boolean> cir) {
-        if (  (this.id == ItemBase.woodSword.id)
+    public void creativeEditorWands_postMine(ItemStack arg, int i, int j, int k, int l, LivingEntity arg2, CallbackInfoReturnable<Boolean> cir) {
+        if (  (this.id == Item.WOODEN_SWORD.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
-           && (arg2 instanceof  PlayerBase)
+           && (arg2 instanceof  PlayerEntity)
         ) {
-            PlayerBase player = (PlayerBase) arg2;
+            PlayerEntity player = (PlayerEntity) arg2;
             if (ModHelper.IsPlayerCreative(player)) {
                 cir.setReturnValue(true);
             }
@@ -54,18 +54,18 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
     }
 
     @Override
-    public String[] getTooltip(ItemInstance item, String originalTooltip) {
-        if (  (this.id == ItemBase.woodSword.id)
+    public String[] getTooltip(ItemStack item, String originalTooltip) {
+        if (  (this.id == Item.WOODEN_SWORD.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
         ) {
-            PlayerBase player = PlayerHelper.getPlayerFromGame();
+            PlayerEntity player = PlayerHelper.getPlayerFromGame();
             int paintId;
             int paintMeta;
 
             if (  (ModHelper.IsPlayerCreative(player))
             ) {
-                if (  (null != player.level)
-                   && (!player.level.isServerSide)
+                if (  (null != player.world)
+                   && (!player.world.isRemote)
                 ) {
                     paintId = item.getDamage();
                     paintMeta = (item.count - 1);
@@ -77,15 +77,15 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
                 String blockName;
 
                 if (1 <= paintId && 255 >= paintId) {
-                    blockName = BlockBase.BY_ID[paintId].getTranslatedName();
+                    blockName = Block.BLOCKS[paintId].getTranslatedName();
                     if (35 == paintId) {
                         int itemMeta = (1 > item.count || 16 < item.count) ? 0 : (item.count - 1);
-                        String translationKey = BlockBase.WOOL.getTranslationKey() + "." + Dye.NAMES[net.minecraft.block.Wool.getColour(itemMeta)];
-                        blockName = I18n.translate(translationKey + ".name");
+                        String translationKey = Block.WOOL.getTranslationKey() + "." + DyeItem.names[net.minecraft.block.WoolBlock.getBlockMeta(itemMeta)];
+                        blockName = I18n.getTranslation(translationKey + ".name");
                     } else if (44 == paintId) {
                         int itemMeta = (1 > item.count || 4 < item.count) ? 0 : (item.count - 1);
-                        String translationKey = BlockBase.STONE_SLAB.getTranslationKey() + "." + net.minecraft.block.StoneSlab.field_2323[itemMeta];
-                        blockName = I18n.translate(translationKey + ".name");
+                        String translationKey = Block.SLAB.getTranslationKey() + "." + net.minecraft.block.SlabBlock.names[itemMeta];
+                        blockName = I18n.getTranslation(translationKey + ".name");
                     }
                 } else if (0 == paintId) {
                     blockName = "Any";
@@ -105,21 +105,21 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
     }
 
     @Override
-    public boolean useOnTile(ItemInstance item, PlayerBase player, Level level, int i, int j, int k, int meta) {
-        if (  (this.id == ItemBase.woodSword.id)
+    public boolean useOnBlock(ItemStack item, PlayerEntity player, World level, int i, int j, int k, int meta) {
+        if (  (this.id == Item.WOODEN_SWORD.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
            && (ModHelper.IsPlayerCreative(player))
         ) {
             int x = i;
             int y = j;
             int z = k;
-            int blockId = level.getTileId(i, j, k);
-            int blockMeta = level.getTileMeta(i, j, k);
+            int blockId = level.getBlockId(i, j, k);
+            int blockMeta = level.getBlockMeta(i, j, k);
             int paintId = item.getDamage();
             int paintMeta = (item.count - 1);
 
             if (  (null == PlayerHelper.getPlayerFromGame())
-               || (false != level.isServerSide)
+               || (false != level.isRemote)
             ) {
                 paintId = ModHelper.ModHelperFields.serverBlockId;
                 paintMeta = ModHelper.ModHelperFields.serverBlockMeta;
@@ -149,8 +149,8 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
             } else if (2 == ModHelper.ModHelperFields.brushType) {
                 creativeEditorWands_cubePaintBrush(level, x, y, z, paintId, paintMeta);
             } else {
-                level.setTile(x, y, z, paintId);
-                level.setTileMeta(x, y, z, paintId);
+                level.setBlock(x, y, z, paintId);
+                level.setBlockMeta(x, y, z, paintId);
             }
 
             return true;
@@ -160,21 +160,21 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
     }
 
     @Unique
-    private void creativeEditorWands_cubePaintBrush(Level level, int x, int y, int z, int blockId, int blockMeta) {
+    private void creativeEditorWands_cubePaintBrush(World level, int x, int y, int z, int blockId, int blockMeta) {
         byte var5 = ModHelper.ModHelperFields.brushSize.byteValue();
 
         for(int var6 = x - var5; var6 <= x + var5; ++var6) {
             for(int var7 = y - var5; var7 <= y + var5; ++var7) {
                 for(int var8 = z - var5; var8 <= z + var5; ++var8) {
-                    level.setTile(var6, var7, var8, blockId);
-                    level.setTileMeta(var6, var7, var8, blockMeta);
+                    level.setBlock(var6, var7, var8, blockId);
+                    level.setBlockMeta(var6, var7, var8, blockMeta);
                 }
             }
         }
     }
 
     @Unique
-    private void creativeEditorWands_squarePaintBrush(Level level, int x, int y, int z, int blockId, int blockMeta, int direction) {
+    private void creativeEditorWands_squarePaintBrush(World level, int x, int y, int z, int blockId, int blockMeta, int direction) {
         byte var5 = ModHelper.ModHelperFields.brushSize.byteValue();
 
         if (direction == 0) {
@@ -183,8 +183,8 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
                 int var7 = y;
                 //for(int var7 = y - var5; var7 <= y + var5; ++var7) {
                     for(int var8 = z - var5; var8 <= z + var5; ++var8) {
-                        level.setTile(var6, var7, var8, blockId);
-                        level.setTileMeta(var6, var7, var8, blockMeta);
+                        level.setBlock(var6, var7, var8, blockId);
+                        level.setBlockMeta(var6, var7, var8, blockMeta);
                     }
                 //}
             }
@@ -194,8 +194,8 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
                 int var7 = y;
                 //for(int var7 = y - var5; var7 <= y + var5; ++var7) {
                 for(int var8 = z - var5; var8 <= z + var5; ++var8) {
-                    level.setTile(var6, var7, var8, blockId);
-                    level.setTileMeta(var6, var7, var8, blockMeta);
+                    level.setBlock(var6, var7, var8, blockId);
+                    level.setBlockMeta(var6, var7, var8, blockMeta);
                 }
                 //}
             }
@@ -205,8 +205,8 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
                 for(int var7 = y - var5; var7 <= y + var5; ++var7) {
                     //for(int var8 = z - var5; var8 <= z + var5; ++var8) {
                     int var8 = z;
-                    level.setTile(var6, var7, var8, blockId);
-                    level.setTileMeta(var6, var7, var8, blockMeta);
+                    level.setBlock(var6, var7, var8, blockId);
+                    level.setBlockMeta(var6, var7, var8, blockMeta);
                     //}
                 }
             }
@@ -216,8 +216,8 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
                 for(int var7 = y - var5; var7 <= y + var5; ++var7) {
                     //for(int var8 = z - var5; var8 <= z + var5; ++var8) {
                     int var8 = z;
-                    level.setTile(var6, var7, var8, blockId);
-                    level.setTileMeta(var6, var7, var8, blockMeta);
+                    level.setBlock(var6, var7, var8, blockId);
+                    level.setBlockMeta(var6, var7, var8, blockMeta);
                     //}
                 }
             }
@@ -227,8 +227,8 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
             int var6 = x;
             for(int var7 = y - var5; var7 <= y + var5; ++var7) {
                 for(int var8 = z - var5; var8 <= z + var5; ++var8) {
-                    level.setTile(var6, var7, var8, blockId);
-                    level.setTileMeta(var6, var7, var8, blockMeta);
+                    level.setBlock(var6, var7, var8, blockId);
+                    level.setBlockMeta(var6, var7, var8, blockMeta);
                 }
             }
             //}
@@ -238,8 +238,8 @@ public class SwordMixin extends ItemBase implements StationSwordItem, CustomTool
             int var6 = x;
             for(int var7 = y - var5; var7 <= y + var5; ++var7) {
                 for(int var8 = z - var5; var8 <= z + var5; ++var8) {
-                    level.setTile(var6, var7, var8, blockId);
-                    level.setTileMeta(var6, var7, var8, blockMeta);
+                    level.setBlock(var6, var7, var8, blockId);
+                    level.setBlockMeta(var6, var7, var8, blockMeta);
                 }
             }
             //}
