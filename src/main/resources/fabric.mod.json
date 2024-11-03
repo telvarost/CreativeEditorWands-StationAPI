@@ -26,13 +26,11 @@
     ],
     "stationapi:event_bus_server": [
     ],
-    "gcapi": [
+    "gcapi3": [
       "com.github.telvarost.creativeeditorwands.Config"
     ],
-    "gcapi:presave": [
+    "gcapi3:presave": [
       "com.github.telvarost.creativeeditorwands.events.ConfigListener"
-    ],
-    "bhcreative:event_bus": [
     ]
   },
   "mixins": [
@@ -41,7 +39,7 @@
 
   "depends": {
     "minecraft": "1.0.0-beta.7.3",
-    "gcapi": "*",
+    "gcapi3": ">=3.0.2",
     "stationapi": "*"
   },
 

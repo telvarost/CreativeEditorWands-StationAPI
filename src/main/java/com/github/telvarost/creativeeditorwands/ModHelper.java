@@ -44,8 +44,8 @@ public class ModHelper {
     {
         if (ModHelperFields.blocksAndItemsRegistered) {
             ModHelperFields.enableWorldEditTools = (  (ModHelperFields.enableWorldEditTools)
-                                                             && (false == Config.config.disableAllEditingTools)
-                                                             );
+                                                   && (false == Config.config.disableAllEditingTools)
+                                                   );
 
             if (ModHelperFields.enableWorldEditTools) {
 

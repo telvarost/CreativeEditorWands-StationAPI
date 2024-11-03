@@ -1,6 +1,5 @@
 package com.github.telvarost.creativeeditorwands.mixin;
 
-import com.github.telvarost.creativeeditorwands.BHCreative;
 import com.github.telvarost.creativeeditorwands.ModHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.LivingEntity;
