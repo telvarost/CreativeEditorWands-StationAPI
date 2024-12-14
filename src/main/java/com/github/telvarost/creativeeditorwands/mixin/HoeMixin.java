@@ -76,6 +76,24 @@ public class HoeMixin extends Item implements StationHoeItem, CustomTooltipProvi
         ) {
             ModHelper.ModHelperFields.brushSize = item.getDamage();
             ModHelper.ModHelperFields.brushType = item.count;
+
+            String brushType = "Point";
+
+            switch (ModHelper.ModHelperFields.brushType) {
+                case 1:
+                    brushType = "Square";
+                    break;
+
+                case 2:
+                    brushType = "Cube";
+                    break;
+            }
+
+            ModHelper.setTooltip( brushType
+                                + " Brush of Size "
+                                + ModHelper.ModHelperFields.brushSize
+                                + " Set!"
+                                , 40);
         }
         return item;
     }
