@@ -56,7 +56,7 @@ How it works:
 
 ## Installation using Prism Launcher
 
-1. Download an instance of Babric for Prism Launcher: https://github.com/babric/prism-instance
+1. Download an instance of Babric for Prism Launcher: https://github.com/Glass-Series/babric-prism-instance
 2. Install Java 17, set the instance to use it, and disable compatibility checks on the instance: https://adoptium.net/temurin/releases/
 3. Add StationAPI to the mod folder for the instance: https://jenkins.glass-launcher.net/job/StationAPI/lastSuccessfulBuild/
 4. (Optional) Add Mod Menu to the mod folder for the instance: https://github.com/calmilamsy/ModMenu/releases
