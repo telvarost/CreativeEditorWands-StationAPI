@@ -17,7 +17,8 @@
   "server": [
   ],
   "client": [
-    "client.ContainerBaseMixin"
+    "client.ContainerBaseMixin",
+    "client.InGameHudAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

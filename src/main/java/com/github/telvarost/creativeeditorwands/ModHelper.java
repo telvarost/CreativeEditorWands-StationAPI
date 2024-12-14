@@ -1,6 +1,8 @@
 package com.github.telvarost.creativeeditorwands;
 
+import com.github.telvarost.creativeeditorwands.util.HotbarTooltipHelper;
 import com.github.telvarost.creativeeditorwands.util.command.StructureCommands;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,6 +30,12 @@ public class ModHelper implements ModInitializer {
 
     public static PlayerManager getConnectionManager() {
         return getServer().playerManager;
+    }
+
+    public static void setTooltip(String message, int remaining) {
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+            HotbarTooltipHelper.setTooltip(message, remaining);
+        }
     }
 
     public static boolean IsPlayerCreative(PlayerEntity player) {

@@ -199,13 +199,13 @@ public class AxeMixin extends ToolItem implements CustomTooltipProvider {
     }
 
     @Override
-    public boolean useOnBlock(ItemStack item, PlayerEntity player, World level, int i, int j, int k, int meta) {
+    public boolean useOnBlock(ItemStack item, PlayerEntity player, World world, int i, int j, int k, int meta) {
         if (  (this.id == Item.WOODEN_AXE.id)
            && (ModHelper.ModHelperFields.enableWorldEditTools)
            && (ModHelper.IsPlayerCreative(player))
         ) {
-            int blockId = level.getBlockId(i, j, k);
-            int blockMeta = level.getBlockMeta(i, j, k);
+            int blockId = world.getBlockId(i, j, k);
+            int blockMeta = world.getBlockMeta(i, j, k);
 
             if (3 == item.count) {
                 /** - Fill selection */
@@ -265,14 +265,14 @@ public class AxeMixin extends ToolItem implements CustomTooltipProvider {
                         for(int var7 = ModHelper.ModHelperFields.copyPoint1_Y; (stateIteration_Y || var7 != (ModHelper.ModHelperFields.copyPoint2_Y + add_y)); var7 += add_y) {
                             for(int var8 = ModHelper.ModHelperFields.copyPoint1_Z; (stateIteration_Z || var8 != (ModHelper.ModHelperFields.copyPoint2_Z + add_z)); var8 += add_z) {
 
-                                level.setBlock(ModHelper.ModHelperFields.copyPoint1_X + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
-                                            , ModHelper.ModHelperFields.copyPoint1_Y + rotationMatrix(offset_x, offset_y, offset_z, 1, damageValue)
-                                            , ModHelper.ModHelperFields.copyPoint1_Z + rotationMatrix(offset_x, offset_y, offset_z, 2, damageValue)
-                                            , blockId);
-                                level.setBlockMeta(ModHelper.ModHelperFields.copyPoint1_X + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
-                                                , ModHelper.ModHelperFields.copyPoint1_Y + rotationMatrix(offset_x, offset_y, offset_z, 1, damageValue)
-                                                , ModHelper.ModHelperFields.copyPoint1_Z + rotationMatrix(offset_x, offset_y, offset_z, 2, damageValue)
-                                                , blockMeta);
+                                world.setBlock( ModHelper.ModHelperFields.copyPoint1_X + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
+                                              , ModHelper.ModHelperFields.copyPoint1_Y + rotationMatrix(offset_x, offset_y, offset_z, 1, damageValue)
+                                              , ModHelper.ModHelperFields.copyPoint1_Z + rotationMatrix(offset_x, offset_y, offset_z, 2, damageValue)
+                                              , blockId);
+                                world.setBlockMeta( ModHelper.ModHelperFields.copyPoint1_X + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
+                                                  , ModHelper.ModHelperFields.copyPoint1_Y + rotationMatrix(offset_x, offset_y, offset_z, 1, damageValue)
+                                                  , ModHelper.ModHelperFields.copyPoint1_Z + rotationMatrix(offset_x, offset_y, offset_z, 2, damageValue)
+                                                  , blockMeta);
 
                                 offset_z += add_z;
                                 stateIteration_Z = false;
@@ -289,6 +289,10 @@ public class AxeMixin extends ToolItem implements CustomTooltipProvider {
                     }
                     offset_x = 0;
                     stateIteration_X = allowSingleIteration_X;
+
+                    ModHelper.setTooltip("Selection between Point 1 and Point 2 filled!", 40);
+                } else {
+                    ModHelper.setTooltip("Current Selection is Invalid!", 40);
                 }
             } else if (2 == item.count) {
                 /** - Paste selection */
@@ -348,16 +352,16 @@ public class AxeMixin extends ToolItem implements CustomTooltipProvider {
                         for(int var7 = ModHelper.ModHelperFields.copyPoint1_Y; (stateIteration_Y || var7 != (ModHelper.ModHelperFields.copyPoint2_Y + add_y)); var7 += add_y) {
                             for(int var8 = ModHelper.ModHelperFields.copyPoint1_Z; (stateIteration_Z || var8 != (ModHelper.ModHelperFields.copyPoint2_Z + add_z)); var8 += add_z) {
 
-                                int copyBlockId = level.getBlockId(var6, var7, var8);
-                                int copyBlockMeta = level.getBlockMeta(var6, var7, var8);
-                                level.setBlock   ( i + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
-                                                , j + rotationMatrix(offset_x, offset_y, offset_z, 1, damageValue)
-                                                , k + rotationMatrix(offset_x, offset_y, offset_z, 2, damageValue)
-                                                , copyBlockId);
-                                level.setBlockMeta   ( i + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
-                                                    , j + rotationMatrix(offset_x, offset_y, offset_z, 1, damageValue)
-                                                    , k + rotationMatrix(offset_x, offset_y, offset_z, 2, damageValue)
-                                                    , copyBlockMeta);
+                                int copyBlockId = world.getBlockId(var6, var7, var8);
+                                int copyBlockMeta = world.getBlockMeta(var6, var7, var8);
+                                world.setBlock( i + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
+                                              , j + rotationMatrix(offset_x, offset_y, offset_z, 1, damageValue)
+                                              , k + rotationMatrix(offset_x, offset_y, offset_z, 2, damageValue)
+                                              , copyBlockId);
+                                world.setBlockMeta( i + rotationMatrix(offset_x, offset_y, offset_z, 0, damageValue)
+                                                  , j + rotationMatrix(offset_x, offset_y, offset_z, 1, damageValue)
+                                                  , k + rotationMatrix(offset_x, offset_y, offset_z, 2, damageValue)
+                                                  , copyBlockMeta);
 
                                 offset_z += add_z;
                                 stateIteration_Z = false;
@@ -374,6 +378,15 @@ public class AxeMixin extends ToolItem implements CustomTooltipProvider {
                     }
                     offset_x = 0;
                     stateIteration_X = allowSingleIteration_X;
+
+
+                    ModHelper.setTooltip("Selection copied to ["
+                                        + i + ","
+                                        + j + ","
+                                        + k + "]!"
+                                        , 40);
+                } else {
+                    ModHelper.setTooltip("Current Selection is Invalid!", 40);
                 }
             } else {
                 /** - Select/clear points */
@@ -388,6 +401,8 @@ public class AxeMixin extends ToolItem implements CustomTooltipProvider {
                     ModHelper.ModHelperFields.copyPoint2_Y = Integer.MAX_VALUE;
                     ModHelper.ModHelperFields.copyPoint2_Z = Integer.MAX_VALUE;
                     item.setDamage(0);
+
+                    ModHelper.setTooltip("Selection Cleared!", 40);
                 } else if (  (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_X)
                           && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Y)
                           && (Integer.MAX_VALUE != ModHelper.ModHelperFields.copyPoint1_Z)
@@ -396,11 +411,23 @@ public class AxeMixin extends ToolItem implements CustomTooltipProvider {
                     ModHelper.ModHelperFields.copyPoint2_Y = j;
                     ModHelper.ModHelperFields.copyPoint2_Z = k;
                     item.setDamage(1);
+
+                    ModHelper.setTooltip("Point 2 Set! ["
+                                    + ModHelper.ModHelperFields.copyPoint2_X + ","
+                                    + ModHelper.ModHelperFields.copyPoint2_Y + ","
+                                    + ModHelper.ModHelperFields.copyPoint2_Z + "]"
+                            , 40);
                 } else {
                     ModHelper.ModHelperFields.copyPoint1_X = i;
                     ModHelper.ModHelperFields.copyPoint1_Y = j;
                     ModHelper.ModHelperFields.copyPoint1_Z = k;
                     item.setDamage((ModHelper.SELECTION_TOOL_DURABILITY - 1));
+
+                    ModHelper.setTooltip("Point 1 Set! ["
+                                        + ModHelper.ModHelperFields.copyPoint1_X + ","
+                                        + ModHelper.ModHelperFields.copyPoint1_Y + ","
+                                        + ModHelper.ModHelperFields.copyPoint1_Z + "]"
+                                        , 40);
                 }
             }
 

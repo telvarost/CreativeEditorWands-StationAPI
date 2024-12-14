@@ -1,6 +1,7 @@
 package com.github.telvarost.creativeeditorwands.mixin.client;
 
 import com.github.telvarost.creativeeditorwands.ModHelper;
+import com.github.telvarost.creativeeditorwands.util.HotbarTooltipHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
