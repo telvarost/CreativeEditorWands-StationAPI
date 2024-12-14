@@ -44,6 +44,7 @@ All changes only apply when player is OP or in single-player toggle wands on/off
 
 If you are using RetroCommands with this mod, you now also have access to the `/structure` command.
 This command allows you to save, copy, and paste structures.
+* NOTE: This command currently does not work with modded blockstates
 
 How it works:
 1. `/structure 1` to set the first position of the structure to copy (this happens where your player is standing)
