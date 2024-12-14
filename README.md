@@ -1,7 +1,7 @@
 # CreativeEditorWands StationAPI Edition for Minecraft Beta 1.7.3
 
 A StationAPI mod for Minecraft Beta 1.7.3 that adds world edit type properties to wooden tools when enabled.
-* Mod (mostly) works on Multiplayer with GlassConfigAPI version 2.0+ used to sync configs!
+* Mod (mostly) works on Multiplayer with [GlassConfigAPI](https://modrinth.com/mod/glass-config-api) version 3.0+ used to sync configs!
 
 ## List of changes
 
@@ -42,7 +42,7 @@ All changes only apply when player is OP or in single-player toggle wands on/off
 
 ## Structure Command
 
-If you are using RetroCommands with this mod, you now also have access to the `/structure` command.
+If you are using [RetroCommands](https://modrinth.com/mod/retrocommands) with this mod, you now also have access to the `/structure` command.
 This command allows you to save, copy, and paste structures.
 * NOTE: This command currently does not work with modded blockstates
 
@@ -60,7 +60,7 @@ How it works:
 2. Install Java 17, set the instance to use it, and disable compatibility checks on the instance: https://adoptium.net/temurin/releases/
 3. Add StationAPI to the mod folder for the instance: https://jenkins.glass-launcher.net/job/StationAPI/lastSuccessfulBuild/
 4. (Optional) Add Mod Menu to the mod folder for the instance: https://github.com/calmilamsy/ModMenu/releases
-5. (Optional) Add GlassConfigAPI 2.0+ to the mod folder for the instance: https://maven.glass-launcher.net/#/releases/net/glasslauncher/mods/GlassConfigAPI
+5. Add GlassConfigAPI 3.0+ to the mod folder for the instance: https://maven.glass-launcher.net/#/releases/net/glasslauncher/mods/GlassConfigAPI
 6. Add this mod to the mod folder for the instance: https://github.com/telvarost/CreativeEditorWands-StationAPI/releases
 7. Run and enjoy! 👍
 
