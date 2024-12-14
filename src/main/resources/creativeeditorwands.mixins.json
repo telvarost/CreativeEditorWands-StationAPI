@@ -11,7 +11,8 @@
     "PickaxeMixin",
     "ShovelMixin",
     "SwordMixin",
-    "ToolBaseMixin"
+    "ToolBaseMixin",
+    "WorldAccessor"
   ],
   "server": [
   ],

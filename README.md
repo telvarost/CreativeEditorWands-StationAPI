@@ -40,6 +40,19 @@ All changes only apply when player is OP or in single-player toggle wands on/off
   * Use `right-click` to enable/disable creative editor wands
     * This is a single-player only feature
 
+## Structure Command
+
+If you are using RetroCommands with this mod, you now also have access to the `/structure` command.
+This command allows you to save, copy, and paste structures.
+
+How it works:
+1. `/structure 1` to set the first position of the structure to copy (this happens where your player is standing)
+2. `/structure 2` to set the second position of the structure to copy (this happens where your player is standing)
+3. `/structure copy SaveName` copies the structure using a cube between positions 1 and 2
+   - `SaveName` can be anything you want and is the saved name of the structure.
+   - You can save as many structures as you want, just don't reuse the same name unless if you want to overwrite that structure.
+4. `/structure paste SaveName` pastes the structure at the location the player is currently standing at
+
 ## Installation using Prism Launcher
 
 1. Download an instance of Babric for Prism Launcher: https://github.com/babric/prism-instance

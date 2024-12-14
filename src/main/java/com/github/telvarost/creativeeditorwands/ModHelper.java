@@ -1,5 +1,7 @@
 package com.github.telvarost.creativeeditorwands;
 
+import com.github.telvarost.creativeeditorwands.util.command.StructureCommands;
+import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -7,11 +9,18 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
 import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 
-public class ModHelper {
+public class ModHelper implements ModInitializer {
     public static final int WOODEN_TOOL_DURABILITY = 59;
     public static final int SELECTION_TOOL_DURABILITY = 10;
     public static int BRUSH_SIZE_DURABILITY = 25;
     public static final int BLOCK_ID_DURABILITY = 96;
+
+    @Override
+    public void onInitialize() {
+        if (FabricLoader.getInstance().isModLoaded("retrocommands")) {
+            StructureCommands.init();
+        }
+    }
 
     public static MinecraftServer getServer() {
         return (MinecraftServer) FabricLoader.getInstance().getGameInstance();
