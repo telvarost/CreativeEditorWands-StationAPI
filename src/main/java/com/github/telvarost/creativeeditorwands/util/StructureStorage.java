@@ -25,15 +25,19 @@ public class StructureStorage {
     public void setPos1(double x, double y, double z) {
         raw_corners[0] = new BlockPos((int) Math.floor(x), (int) Math.floor(y), (int) Math.floor(z));
     }
+
     public void setPos2(double x, double y, double z) {
         raw_corners[1] = new BlockPos((int) Math.floor(x), (int) Math.floor(y), (int) Math.floor(z));
     }
+
     public void setPos1(BlockPos pos) {
         raw_corners[0] = pos;
     }
+
     public void setPos2(BlockPos pos) {
         raw_corners[1] = pos;
     }
+
     public void cleanData() {
         // makes [0] min and [1] max
         corners = new BlockPos[]{
@@ -41,6 +45,7 @@ public class StructureStorage {
                 new BlockPos(Math.max(raw_corners[0].x, raw_corners[1].x), Math.max(raw_corners[0].y, raw_corners[1].y)-1, Math.max(raw_corners[0].z, raw_corners[1].z))
         };
     }
+
     public String copy(World world, String name) {
         if (raw_corners[0] == null || raw_corners[1] == null) {
             return "One of the corners are not set";
@@ -114,6 +119,7 @@ public class StructureStorage {
 
         return "Copied Successfully as " + name;
     }
+
     public String paste(World world, int x, int y, int z, String name) {
         return paste(world, x, y, z, name, true);
     }
@@ -259,6 +265,41 @@ public class StructureStorage {
         }
     }
 
+    public String fill(World world, int blockId, int blockMeta) {
+        if (raw_corners[0] == null || raw_corners[1] == null) {
+            return "One of the corners are not set";
+        }
+        cleanData();
+        if (corners[1].x - corners[0].x > 100 || corners[1].y - corners[0].y > 100 || corners[1].z - corners[0].z > 100) {
+            return "Area is too large, < 100 blocks in each direction allowed";
+        }
+
+        if (Block.BLOCKS.length <= blockId) {
+            return "Block ID to fill area with does not exist";
+        }
+
+        if (0 > blockId) {
+            return "Block ID is too small value must be greater than -1";
+        }
+
+        if (16 <= blockMeta) {
+            return "Metadata value is too large value must be less than 16";
+        }
+
+        for (int x = corners[0].x; x <= corners[1].x; x++) {
+            for (int y = corners[0].y; y <= corners[1].y; y++) {
+                for (int z = corners[0].z; z <= corners[1].z; z++) {
+                    world.setBlockWithoutNotifyingNeighbors(x, y, z, blockId);
+                    if (0 <= blockMeta) {
+                        world.setBlockMetaWithoutNotifyingNeighbors(x, y, z, blockMeta);
+                    }
+                }
+            }
+        }
+
+        return "Filled [" + corners[0].x + "," + corners[0].y + "," + corners[0].z +
+               "] to [" + corners[1].x + "," + corners[1].y + "," + corners[1].z + "] Successfully";
+    }
 
     private static Direction getHorizontalDirectionValue(String s) {
         return switch (s) {

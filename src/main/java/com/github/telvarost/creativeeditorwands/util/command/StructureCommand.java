@@ -49,6 +49,29 @@ public class StructureCommand implements Command {
                         commandSource.sendFeedback("For pasting you need a name");
                     }
                     break;
+                case "fill":
+                    if (strings.length > 3) {
+                        try {
+                            int blockId;
+                            int blockMeta;
+                            blockId = Integer.parseInt(strings[2]);
+                            blockMeta = Integer.parseInt(strings[3]);
+                            commandSource.sendFeedback(structureStorage.fill(player.world, blockId, blockMeta));
+                        } catch (NumberFormatException e) {
+                            commandSource.sendFeedback("The block ID or metadata value provided is not a number");
+                        }
+                    } else if (strings.length > 2) {
+                        try {
+                            int blockId;
+                            blockId = Integer.parseInt(strings[2]);
+                            commandSource.sendFeedback(structureStorage.fill(player.world, blockId, -1));
+                        } catch (NumberFormatException e) {
+                            commandSource.sendFeedback("The block ID provided is not a number");
+                        }
+                    } else {
+                        commandSource.sendFeedback("For filling you need to provide a block ID");
+                    }
+                    break;
             }
         } else {
             manual(commandSource);
@@ -67,5 +90,7 @@ public class StructureCommand implements Command {
         commandSource.sendFeedback("Info: copy, copies between 1 and 2 pos");
         commandSource.sendFeedback("Info: paste, pastes structure from min corner on player pos");
         commandSource.sendFeedback("Info: name is required for copy/paste as an identifier");
+        commandSource.sendFeedback("Info: fill, fills between 1 and 2 pos");
+        commandSource.sendFeedback("Info: block ID (and optionally block meta) is required for fill");
     }
 }
