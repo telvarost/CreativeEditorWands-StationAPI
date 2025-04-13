@@ -21,15 +21,15 @@ public class ToolBaseMixin extends Item implements StationToolItem {
     }
 
     @Inject(at = @At("HEAD"), method = "postHit", cancellable = true)
-    public void creativeEditorWands_postHit(ItemStack arg, LivingEntity arg2, LivingEntity arg3, CallbackInfoReturnable<Boolean> cir) {
+    public void creativeEditorWands_postHit(ItemStack stack, LivingEntity target, LivingEntity attacker, CallbackInfoReturnable<Boolean> cir) {
         if (  (ModHelper.ModHelperFields.enableWorldEditTools)
            && (  (this.id == Item.WOODEN_SHOVEL.id)
               || (this.id == Item.WOODEN_AXE.id)
               || (this.id == Item.WOODEN_PICKAXE.id)
               )
-           && (arg3 instanceof  PlayerEntity)
+           && (attacker instanceof PlayerEntity)
         ) {
-            PlayerEntity player = (PlayerEntity) arg2;
+            PlayerEntity player = (PlayerEntity) attacker;
             if (ModHelper.IsPlayerCreative(player)) {
                 cir.setReturnValue(true);
             }
@@ -37,15 +37,15 @@ public class ToolBaseMixin extends Item implements StationToolItem {
     }
 
     @Inject(at = @At("HEAD"), method = "postMine", cancellable = true)
-    public void creativeEditorWands_postMine(ItemStack arg, int i, int j, int k, int l, LivingEntity arg2, CallbackInfoReturnable<Boolean> cir) {
+    public void creativeEditorWands_postMine(ItemStack stack, int blockId, int x, int y, int z, LivingEntity miner, CallbackInfoReturnable<Boolean> cir) {
         if (  (ModHelper.ModHelperFields.enableWorldEditTools)
            && (  (this.id == Item.WOODEN_SHOVEL.id)
               || (this.id == Item.WOODEN_AXE.id)
               || (this.id == Item.WOODEN_PICKAXE.id)
               )
-           && (arg2 instanceof PlayerEntity)
+           && (miner instanceof PlayerEntity)
         ) {
-            PlayerEntity player = (PlayerEntity) arg2;
+            PlayerEntity player = (PlayerEntity) miner;
             if (ModHelper.IsPlayerCreative(player)) {
                 cir.setReturnValue(true);
             }
